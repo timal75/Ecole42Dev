@@ -1,0 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/05 16:25:05 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/06 15:54:46 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdlib.h>
+#include <stdio.h>
+
+int	ft_atoi(char *str)
+{
+	int		resultat;
+	int		k;
+
+	k = 0;
+	resultat = 0;
+	while (*str == '\n' || *str == '\r' || *str =='\t'
+		   || *str == '\f' || *str == '\v' || *str == ' ' ||
+	    	*str == '\a' || *str =='\b')
+ 	{
+		str++;
+	}		
+	if (*str == '-')
+	{
+		str++;
+		k = 1;
+	}
+	while (*str >= '0' && *str <= '9' && *str != '\0')
+	{
+		resultat = resultat + *str - '0';
+		resultat = resultat * 10;
+		str++;
+	}
+	if (k == 1)
+	{
+		resultat = resultat * -1;
+	}
+	return (resultat / 10);
+}
+
+int		main(void)
+{
+		char	*tab;
+		int		k;
+
+		tab ="   5   78		45ttyretuyt";
+		k = atoi(tab);
+		printf("atoi renvoie : %d\n", k);
+		printf ("ma fonction renvoie : %d\n",ft_atoi(tab));
+
+		return(0);
+}

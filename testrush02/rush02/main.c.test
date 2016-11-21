@@ -1,0 +1,117 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/17 17:44:22 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/18 19:50:28 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#define BUF_SIZE 4096
+#include <stdlib.h>
+#include <header.h>
+
+int			gc(char *str)
+{
+	char	*str1;
+	int		i;
+
+	i = 0;
+	str1 = str;
+	while (*str1 != '\0' && *str1 != '\n')
+	{
+		i++;
+		str1++;
+	}
+	return (i);
+}
+
+int			gl(char *str)
+{
+	char	*str1;
+	int		i;
+
+	i = 0;
+	str1 = str;
+	while (*str1 != '\0')
+	{
+		if (*str1 == '\n')
+		{
+			i++;
+		}
+		str1++;
+	}
+	return (i);
+}
+
+void		printoutput(char *str, int nblignes, int nbcol, int p)
+{
+	if (p > 1)
+		write(1, " || ", 4);
+	ft_putstr(str);
+	ft_putstr(" [");
+	ft_putnbr(nblignes);
+	ft_putstr("] [");
+	ft_putnbr(nbcol);
+	ft_putstr("]");
+}
+
+void		traite_input(char	*final)
+{
+	char	*input;
+	char	*str;
+	int		p;
+
+	p = 0;
+	input = final;
+	str = colle00(gl(input), gc(input));
+	if (ft_strcmp(input, str) == 0)
+		printoutput("[colle-00]", gl(input), gc(input), ++p);
+	str = colle01(gl(input), gc(input));
+	if (ft_strcmp(input, str) == 0)
+		printoutput("[colle-01]", gl(input), gc(input), ++p);
+	str = colle02(gl(input), gc(input));
+	if (ft_strcmp(input, str) == 0)
+		printoutput("[colle-02]", gl(input), gc(input), ++p);
+	str = colle03(gl(input), gc(input));
+	if (ft_strcmp(input, str) == 0)
+		printoutput("[colle-03]", gl(input), gc(input), ++p);
+	str = colle04(gl(input), gc(input));
+	if (ft_strcmp(input, str) == 0)
+		printoutput("[colle-04]", gl(input), gc(input), ++p);
+	if (p == 0)
+		ft_putstr("aucune");
+	ft_putstr("\n");
+
+}
+
+void		ft_get_stdin(void)
+{
+	int		ret;
+	int		total_size;
+	char	buf[BUF_SIZE + 1];
+	char	*final;
+	char	tmp[100000];
+
+	total_size = 0;
+	final = malloc(1);
+	while ((ret = read(0, buf, BUF_SIZE)) > 0)
+	{
+		ft_strcpy(tmp, final);
+		buf[ret] = '\0';
+		total_size = total_size + ret;
+		final = (char *)malloc(sizeof(char) * total_size);
+		final = ft_strcat(tmp, buf);
+	}
+	traite_input (tmp);
+}
+
+int			main(void)
+{
+
+	ft_get_stdin();
+	return (0);
+}

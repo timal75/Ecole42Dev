@@ -1,0 +1,55 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/05 14:41:53 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/05 17:24:54 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+#include <unistd.h>
+#include <stdio.h>
+
+int		ft_putchar(char c)
+{
+		write(1, &c, 1);
+		return (0);
+}
+
+void 	ft_putnbr(int nb)
+{
+	int		idx;
+	int		nbs;
+	char	to_print;
+
+	to_print = 'N';
+	if (nb < 0 )
+	{
+		ft_putchar( '-' );
+		nb = nb *-1;
+	}
+	if (nb > 9)
+	{
+		ft_putnbr ( nb / 10);
+		ft_putnbr ( nb % 10);
+	}
+	else
+	{
+		nb = nb + '0';
+		ft_putchar (nb);
+	}
+}
+
+int		main(void)
+{
+	int		nb;
+
+	nb = -45286789;
+	//printf(" nb is %d ",nb);
+	ft_putnbr ( nb );
+	return (0);
+}

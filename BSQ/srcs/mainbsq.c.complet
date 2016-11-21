@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+ 
+int etendreCarre(int **tab, int debLig, int debCol, int taille, int nbLig, int nbCol) 
+{
+   int 	bon=1;
+   int	i;
+   int	j;
+   int	res;
+
+   bon = 1;
+   i = debLig+taille-1;
+   j = debCol;
+
+   if (debLig+taille>nbLig || debCol+taille >nbCol) 
+	   return 0;
+   while (bon && j<debCol+taille) 
+   {
+         if (tab[i][j]) 
+			 bon=0;
+         else 
+			 j++;
+   }
+   if (bon) 
+	   j--;
+   while (bon && i>=debLig) 
+   {
+         if (tab[i][j]) 
+			 bon=0;
+         else 
+			 i--;
+   }
+   if (bon) {
+      if ((res=etendreCarre(tab,debLig,debCol,taille+1,nbLig,nbCol)))
+         return res;
+      else
+         return taille;
+   }
+   else
+      return 0;
+}
+ 
+int tailleCarre(int **tab, int debLig, int debCol, int taille, int nbLig, int nbCol) 
+{
+	int 	bon;
+   	int		i;
+	int		j; 
+	int 	res;
+
+	bon = 1;
+	i = debLig;
+	j = debCol;
+
+   while (bon && i<nbLig && i<debLig+taille) 
+   {
+      j=debCol;
+      while (bon && j<nbCol && j<debCol+taille) 
+	  {
+         if (tab[i][j])
+            bon=0;
+         else
+            j++;
+      }
+      i++;
+   }
+   if (i==debLig+taille && j==debCol+taille) 
+   {
+      if ((res=etendreCarre(tab,debLig,debCol,taille+1,nbLig,nbCol)))
+         return res;
+      else
+         return taille;
+   }
+   else
+      return 0;
+}
+ 
+int main (int argc, char **argv) 
+{
+	int nbLig; 
+	int	nbCol; 
+	int i; 
+	int taille; 
+	int max; 
+	int j;
+	int	**tab;
+
+	taille=0, 
+	max=0;
+
+   scanf("%d %d",&nbLig,&nbCol);
+   if (nbLig>350 || nbLig <1 || nbCol >350 || nbCol<1)
+      exit(0);
+   tab=malloc(sizeof(int)*nbLig);
+   for (i=0; i<nbLig; i++)
+   {   
+      tab[i]=malloc(sizeof(int)*nbCol);
+      for (j=0; j<nbCol; j++) 
+	  {
+         scanf("%d",&tab[i][j]);
+      }
+   }
+
+	for (i=0; i<nbLig; i++)
+	{   
+      for (j=0; j<nbCol; j++) 
+	  {
+         if (!tab[i][j] && i+max<nbLig && j+max<nbCol) 
+		 {
+            taille=tailleCarre(tab,i,j,max+1,nbLig,nbCol);
+            if (taille>max)
+               max=taille;
+         }
+         else if (j+max>=nbCol) 
+			 break;
+         else if (i+max>=nbLig) 
+			 continue;
+      }
+   }
+   printf("%d",max);
+   for (i=0; i<nbLig; i++)  
+      	free(tab[i]);
+	free(tab);
+	return 0;
+}

@@ -1,0 +1,35 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strlowcase.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/06 18:29:21 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/06 18:33:51 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <unistd.h>
+#include <stdio.h>
+char *ft_strlowcase(char *str)
+{
+	while (*str != '\0')
+	{
+		if (*str >= 'A' && *str <= 'Z')
+		{
+			*str = *str + 32;
+		}
+		str++;
+	}
+	return (str);
+}
+
+int		main (void)
+{
+		char		str[55] = "TYUIRUIYG  abc  defg  45  JKLIG	";
+
+		printf("La chaine de depart  est %s\n", str);
+		ft_strlowcase( str);
+		printf("Le resultat est %s\n", str);
+}

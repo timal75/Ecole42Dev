@@ -1,0 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tailleCarre.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/20 19:14:07 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/20 19:29:21 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <stdlib.h>
+#include "header.h"
+
+int	tailleCarre(char **tab, int debLig, int debCol, int taille, int nbLig, int nbCol)
+{
+	int		bon;
+	int		i;
+	int		j;
+	int		res;
+
+	bon = 1;
+	i = debLig;
+	j = debCol;
+	while (bon && i < nbLig && i < debLig + taille)
+	{
+		j = debCol;
+		while (bon && j < nbCol && j < debCol + taille)
+		{
+			if (tab[i][j] == '1')
+				bon = 0;
+			else
+				j++;
+		}
+		i++;
+	}
+	if (i == debLig + taille && j == debCol + taille)
+	{
+		if ((res = etendrecarre(tab, debLig, debCol, taille + 1, nbLig, nbCol)))
+		{
+			return (res);
+		}
+		else
+			return (taille);
+	}
+	else
+		return (0);
+}

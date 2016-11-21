@@ -1,0 +1,278 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int etendreCarre(char **tab, int debLig, int debCol, int taille, int nbLig, int nbCol) 
+{
+   int 	bon=1;
+   int	i;
+   int	j;
+   int	res;
+
+   bon = 1;
+   i = debLig+taille-1;
+   j = debCol;
+
+   if (debLig+taille>nbLig || debCol+taille >nbCol) 
+	   return 0;
+   while (bon && j<debCol+taille) 
+   {
+         if (tab[i][j] == '1') 
+			 bon=0;
+         else 
+			 j++;
+   }
+   if (bon) 
+	   j--;
+   while (bon && i>=debLig) 
+   {
+         if (tab[i][j] == '1') 
+			 bon=0;
+         else 
+			 i--;
+   }
+   if (bon) {
+      if ((res=etendreCarre(tab,debLig,debCol,taille+1,nbLig,nbCol)))
+         return res;
+      else
+         return taille;
+   }
+   else
+      return 0;
+}
+ 
+int tailleCarre(char **tab, int debLig, int debCol, int taille, int nbLig, int nbCol) 
+{
+	int 	bon;
+   	int		i;
+	int		j; 
+	int 	res;
+
+	bon = 1;
+	i = debLig;
+	j = debCol;
+
+   //printf("=============================ds tailleCarre======\n");
+   //printf("=========>debligne %d, debutcol %d\n", i, j);
+   //printf("=========>taille %d\n", taille);
+   while (bon && i<nbLig && i<debLig+taille) 
+   {
+      //printf("========>debut while debligne %d, debutcol %d\n", i, j);
+      j=debCol;
+      while (bon && j<nbCol && j<debCol+taille) 
+	  {
+
+   		//printf("=========>ids 2eme while debligne %d, debutcol %d\n", i, j);
+
+         if (tab[i][j] == '1')
+		{
+   		//printf("========>qui fait mettre bon a 0debligne %d, debutcol %d\n", i, j);
+            bon=0;
+		}
+         else
+		{
+   			//printf("========>ds else  0debligne %d, debutcol %d\n", i, j);
+            j++;
+		}
+      }
+      i++;
+   }
+   if (i==debLig+taille && j==debCol+taille) 
+   {
+      //printf("========>debut 2eme if  debligne %d, debutcol %d\n", i, j);
+      if ((res=etendreCarre(tab,debLig,debCol,taille+1,nbLig,nbCol)))
+	  {
+      //printf("========>res %d  debligne %d, debutcol %d\n", res, i, j);
+         return res;
+	  }
+      else
+         return taille;
+   }
+   else
+      return 0;
+}
+
+int		**init(void)
+{
+		int		**tab;
+
+		tab = malloc(sizeof(int)*(5*5)+1);
+		if (!tab)
+		{
+			printf("memoire non allouee\n");
+			return (0);
+		}
+
+		tab[0][0] = 0;
+		tab[0][1] = 1;
+		tab[0][2] = 0;
+		tab[0][3] = 0;
+		tab[0][4] = 1;
+
+	    tab[1][0] = 0;
+	    tab[1][1] = 0;
+	    tab[1][2] = 0;
+	    tab[1][3] = 0;
+	    tab[1][4] = 0;
+
+	    tab[2][0] = 0;
+	    tab[2][1] = 0;
+	    tab[2][2] = 0;
+	    tab[2][3] = 0;
+	    tab[2][4] = 0;
+
+	    tab[3][0] = 0;
+	    tab[3][1] = 0;
+	    tab[3][2] = 0;
+	    tab[3][3] = 1;
+	   	tab[3][4] = 0;
+
+	    tab[4][0] = 0;
+	    tab[4][1] = 0;
+	    tab[4][2] = 0;
+	    tab[4][3] = 0;
+	    tab[4][4] = 0;
+
+		return(tab);
+
+}
+
+char		**remplir_tableau(char **tab, int max_x, int max_y, int taille)
+{
+	int		i;
+	int     j;
+
+	i = max_x;
+	j = max_y;
+
+	while (i < max_x +taille)
+	{
+		j = max_y;
+		while( j < max_y +taille)
+		{
+			tab[i][j] ='X';
+			j++;
+		}
+		i++;
+	}	
+	return (tab);
+}
+int 	main (void)
+{
+	int		i;
+	int		j;
+	int		nb_lignes;
+	int		nb_col;
+	char	**tab;
+	int		max;
+	int		max_x;
+	int		max_y;
+	int		taille;
+
+	nb_lignes = 7;
+	nb_col = 9;
+	max = 0;
+	taille = 0;
+	i = 0;
+	tab = (char **)malloc(sizeof(char *)*nb_lignes);
+		if (!tab)
+		{
+			printf("memoire non allouee\n");
+			return (0);
+		}
+		j = 0;
+		while(i < nb_lignes)
+		{
+			tab[i] = (char *)malloc(sizeof(char)*nb_col);
+			i++;
+		}
+		i = 0;
+		j =0;
+		while (i < nb_lignes)
+		{
+			j = 0;
+			while(j < nb_col)
+			{
+			//printf("i %d j %d\n", i, j);
+				tab[i][j] = '0';
+				j++;
+			}
+			i++;
+		}
+		tab[0][1] = '1';
+		tab[0][4] = '1';
+
+	    tab[3][3] = '1';
+		tab[3][7] = '1';
+	    tab[6][2] = '1';
+	    tab[6][5] = '1';
+
+		i = 0;
+		while (i < nb_lignes)
+		{
+			j = 0;
+			while(j < nb_col)
+			{
+				printf("%c ", tab[i][j]);
+				j++;
+			}
+			printf("\n");
+			i++;
+		}
+
+
+   printf("========================Main2 avec les for======\n");
+	//tab = init();
+			//printf("nblignes %d nbcolo %d\n", nb_lignes, nb_col);
+	for (i=0; i<nb_lignes; i++)
+    {
+			 printf("debut for i i : %d, j %d\n", i , j);
+	    for (j=0; j<nb_col; j++)
+	    {
+			 printf("debut for j i : %d, j %d\n", i , j);
+			//printf("tab[%d][%d] = %c\n", i, j, tab[i][j]);
+			//printf("tabauille %d\n", taille);
+		    if ((tab[i][j] == '0') && i+max<nb_lignes && j+max<nb_col)
+		    {
+			     taille=tailleCarre(tab,i,j,max+1,nb_lignes,nb_col);
+				 //printf("ds if  taille = %d\n", taille);
+			     if (taille>max)
+				{
+				     max=taille;
+					 max_x = i;
+					 max_y = j;
+				}
+		    }
+		     else if (j+max>=nb_col)
+			 {
+				 //printf("ds break taille = %d\n", taille);
+				 //printf("ds break i : %d, j %d\n", i , j);
+			     break;
+			 }
+		     else if (i+max>=nb_lignes)
+			{
+				 //printf("ds continue i : %d, j %d\n", i , j);
+			      continue;
+			}
+	   }
+   }
+   printf("%d\n",max);
+   printf("%d   %d\n",max_x, max_y);
+   remplir_tableau (tab,max_x,max_y,max);
+		i = 0;
+		while (i < nb_lignes)
+		{
+			j = 0;
+			while(j < nb_col)
+			{
+				printf("%c ", tab[i][j]);
+				j++;
+			}
+			printf("\n");
+			i++;
+		}
+   for (i=0; i<nb_lignes; i++)
+	   free(tab[i]);
+ 	free(tab);
+   return 0;
+}
+

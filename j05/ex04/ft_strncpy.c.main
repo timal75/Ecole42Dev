@@ -1,0 +1,43 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/05 18:52:39 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/05 19:04:07 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <string.h>
+
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	int		k;
+
+	k = 1;
+	while ((*src != '\0') && (k <= n))
+	{
+		*dest = *src;
+		dest++;
+		src++;
+		k++;
+	}
+	*dest ='\0';
+	return (dest);
+}
+
+int		main (void)
+{
+		char		src[25] = "Hello uiuoi	quroiuToto";
+		char		dest[25];
+		char		dest2[25];
+
+		strncpy (dest, src,3);
+		printf("la copie par stccpy est:%s\n", dest);
+		ft_strncpy (dest2, src,3);
+		printf("la copie par ma fonction est:%s\n", dest2);
+
+}

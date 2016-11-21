@@ -1,0 +1,171 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_display_file.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsangare <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/15 19:17:06 by fsangare          #+#    #+#             */
+/*   Updated: 2016/09/21 20:41:50 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
+
+int		line1_ok(char **tab)
+{
+	char 	nb_lignes[100];
+	int		i;
+	int		j;
+	int		flag;
+	int		flag2;
+
+	i = 0;
+	j = 0;
+	flag = 0;
+	flag2 = 0;
+	while (tab[i][j] && i < 1)
+	{
+		if ((tab[i][j] >= '1' && tab[i][j] <= '9') && flag == 0)
+		{
+				nb_lignes[j] = tab[i][j];
+				flag2 = 1;
+		}
+		else
+			flag++;
+		if (tab[i][j] == '\n')
+		{
+			j	= 0;
+			i++;
+		}
+		else
+			j++;
+	}
+	if (flag2 == 1)
+	{
+		nb_lignes[j] = '\0';
+		printf("======================================\n");
+		printf("nb kignes : %d\n", ft_atoi(nb_lignes));
+		return (ft_atoi(nb_lignes));
+	}
+	else
+		return (0);
+}
+
+void	operate2_tab(char **tab2,int nb_lignes, char *chartab)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (tab2[i][j])
+	{
+		if (tab2[i][j] != chartab[0] || tab2[i][j] != chartab[1] || tab2[i][j] != chartab[2])
+		{
+			ft_putstr("CTRL 2-1 : File invalide\n");
+			return;
+		}
+		if (tab2[i][j] == '\n')
+		{
+			if (j != nb_lignes - 1)
+			{
+				ft_putstr("CTRL 2-2 : File invalide\n");
+				return;
+			}
+			j	= 0;
+			i++;
+		}
+		else
+		j++;
+	}
+	if (i != nb_lignes - 1)
+	{
+		ft_putstr("CTRL 2-3 : File invalide\n");
+		return;
+	}
+	else
+	{
+	ft_putstr("CTRL 2 : File ok\n");
+	//appel_pgm_jblancha(char **tab, int nb_lignes, char *chartab);
+	}
+}
+
+void	operate_tab(char **tab, int x)
+{
+	char	**tab2;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	tab2 = init(x, x);
+	if (line1_ok(tab) != 0)
+	{
+		while (tab[i][j])
+  	{
+			tab2[i][j] = tab[i + 1][j];
+			ft_putchar(tab[i + 1][j]);
+			if (tab[i + 1][j] == '\n')
+			{
+				j	= 0;
+				i++;
+			}
+			else
+				j++;
+		}
+ 	if (char_ok(tab))
+	{
+			ft_putstr("CTRL 1 : File ok\n");
+			operate2_tab(tab2, x, char_feed(tab, x));
+		}
+		else
+			ft_putstr("CTRL 1-1 : File invalide\n");
+	}
+	else
+		ft_putstr("CTRL 1-2 : File invalide\n");
+}
+
+void	feed_file(int fd, char *file)
+{
+	char	buffer[2];
+	char	*final;
+	char	*tmp;
+	int		total_size;
+	int		ret;
+
+	total_size = 0;
+	tmp = (char *)malloc(sizeof(char) * 1);
+	final = (char *)malloc(sizeof(char) * 1);
+	while ((ret = read(fd, &buffer, 1))
+	{
+		if (buffer == '\n')
+		{
+			ft_strcpy(tmp, final);
+			if (final)
+				free(final);
+			buf[ret] = '\0';
+			total_size = total_size + ret;
+			final = (char *)malloc(sizeof(char) * total_size);
+			final = ft_strcat(tmp, buf);
+			if (tmp)
+				free(tmp);
+		}
+	}
+	close(fd);
+}
+
+void	test_file(char *file)
+{
+	int	fd;
+
+	fd = 0;
+	fd = open(file, O_RDONLY);
+	if (fd != -1)
+	{
+		feed_file(fd, file);
+		close(fd);
+	}
+	else
+		write(2, "Impossible to open the file\n", 28);
+}

@@ -1,0 +1,53 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_display_file.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fsangare <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/15 19:17:06 by fsangare          #+#    #+#             */
+/*   Updated: 2016/09/21 18:40:24 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "header.h"
+
+void	ft_lirefichier (char *file, int nb_lignes, char *carac)
+{
+	char	buffer;
+	int		fd;
+	int		i;
+	int		j;
+
+    fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		return;
+	}
+	i = -1;
+	j = 0;
+	fd = open(file, O_RDONLY);
+	if (fd != -1)
+	{
+		while (read(fd, &buffer, 1))
+  		{
+			if (i >= 0)	
+				tab[i][j] = buffer;
+			if (buffer == '\n')
+			{
+				j	= 0;
+				i++;
+			}
+			else
+				j++;
+			ft_putchar(tab[i][j]);
+		}
+	}
+	tab[i][j] = '\0';
+	ft_putnbr(i);
+	ft_putnbr(j);
+	ft_putchar('\n');
+	if (i <= 1)
+		ft_putstr("CTRL 0-1 : File invalide\n");
+	close(fd);
+}

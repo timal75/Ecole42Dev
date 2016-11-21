@@ -1,0 +1,210 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main2.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/09/20 14:36:58 by jblancha          #+#    #+#             */
+/*   Updated: 2016/09/20 19:31:30 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int		etendrecarre(char **tab, int debLig, int debCol, int taille, int nbLig, int nbCol)
+{
+	int		bon;
+	int		i;
+	int		j;
+	int		res;
+
+	bon = 1;
+	i = debLig + taille - 1;
+	j = debCol;
+	if (debLig + taille > nbLig || debCol + taille > nbCol)
+		return (0);
+	while (bon && j < debCol + taille)
+	{
+		if (tab[i][j] == '1')
+			bon = 0;
+		else
+			j++;
+	}
+	if (bon)
+		j--;
+	while (bon && i >= debLig)
+	{
+		if (tab[i][j] == '1')
+			bon = 0;
+		else
+			i--;
+	}
+	if (bon)
+	{
+		if ((res = etendrecarre(tab, debLig, debCol, taille + 1, nbLig, nbCol)))
+			return (res);
+		else
+			return (taille);
+	}
+	else
+		return (0);
+}
+
+int	tailleCarre(char **tab, int debLig, int debCol, int taille, int nbLig, int nbCol)
+{
+	int		bon;
+	int		i;
+	int		j;
+	int		res;
+
+	bon = 1;
+	i = debLig;
+	j = debCol;
+	while (bon && i < nbLig && i < debLig + taille)
+	{
+		j = debCol;
+		while (bon && j < nbCol && j < debCol + taille)
+		{
+			if (tab[i][j] == '1')
+				bon = 0;
+			else
+				j++;
+		}
+		i++;
+	}
+	if (i == debLig + taille && j == debCol + taille)
+	{
+		if ((res = etendrecarre(tab, debLig, debCol, taille + 1, nbLig, nbCol)))
+		{
+			return (res);
+		}
+		else
+			return (taille);
+	}
+	else
+		return (0);
+}
+
+void 	lancer_traitement(char **tab, int nb_lignes, int nb_col)
+{
+	int		i;
+	int		j;
+	int		taille;
+	int		tab1[3];
+	int		max;
+
+	max = 0;
+	i = 0;
+	while (i < nb_lignes)
+	{
+		j = 0;
+		while (j < nb_col && (j + max < nb_col))
+		{
+			if ((tab[i][j] == '0') && i + max < nb_lignes && j + max < nb_col)
+			{
+				taille = tailleCarre(tab, i, j, max+ 1, nb_lignes, nb_col);
+				if (taille > tab1[0])
+				{
+					max = taille;
+					tab1[1] = i;
+					tab1[2] = j;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+char		**init(int nb_lignes, int nb_col)
+{
+	int		i;
+	int		j;
+	char	**tab;
+
+	i = 0;
+	tab = (char **)malloc(sizeof(char *) * nb_lignes);
+	if (!tab)
+	{
+		printf("memoire non allouee\n");
+		return (0);
+	}
+	j = 0;
+	while (i < nb_lignes)
+	{
+		tab[i] = (char *)malloc(sizeof(char) * nb_col);
+		i++;
+	}
+	lancer_traitement(tab, nb_lignes, nb_col);
+	for (i = 0; i < nb_lignes; i++)
+		free(tab[i]);
+	free(tab);
+	return (tab);
+}
+
+void	imprimer_tableau(char **tab, int nb_lignes, int nb_col)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	while (i < nb_lignes)
+	{
+		j = 0;
+		while (j < nb_col)
+		{
+			printf("%c ", tab[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
+char		**remplir_tableau(char **tab, int max_x, int max_y, int taille)
+{
+	int		i;
+	int		j;
+
+	i = max_x;
+	j = max_y;
+	while (i < max_x + taille)
+	{
+		j = taille;
+		while (j < max_y + taille)
+		{
+			tab[i][j] = 'X';
+			j++;
+		}
+		i++;
+	}
+	return (tab);
+}
+
+int		main(void)
+{
+	int		i;
+	int		j;
+	int		nb_lignes;
+	int		nb_col;
+	char	**tab;
+	int		max;
+	int		max_x;
+	int		max_y;
+	int		taille;
+
+	nb_lignes = 5;
+	nb_col = 5;
+	max = 0;
+	taille = 0;
+	tab = init(nb_lignes, nb_col);
+	imprimer_tableau(tab, nb_lignes, nb_col);
+	printf("\n");
+	tab = remplir_tableau(tab, max_x, max_y, max);
+	imprimer_tableau(tab, nb_lignes, nb_col);
+	i = 0;
+	return (0);
+}
