@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/21 02:08:10 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/22 20:17:10 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,33 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_listi
+{
+	int				data;
+	struct s_listi	*next;
+}					t_listi;
+
+typedef struct		s_lists
+{
+	char			*src;
+	struct s_lists	*next;
+}					t_lists;
+
 t_list				*ft_lstnew (void const *content, size_t content_size);
 void				ft_lstdelone(t_list **alst, void (*del)(void*, size_t));
 void				ft_lstdel(t_list **alst, void (*del)(void *, size_t));
 void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstaddlast(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
+t_listi				*ft_sort_listi(t_listi *lst, int (*cmp)(int, int));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
+t_listi				*ft_lstnewi(int data);
+void				ft_lstpushfronti(t_listi **begin_list, int data);
+void				ft_lstpushbacki(t_listi **begin_list, int data);
+t_listi				*ft_create_elemi(int data);
+void				ft_printlisti(t_listi *lst);
+int					ft_lstsizei(t_listi *begin_list);
+void				ft_lstcleari(t_listi **begin_list);
 # define NEG(x) (((x) < 0) ? 1 : 0)
 # define ABS(x) (((x) < 0) ? -(x) : x)
 
