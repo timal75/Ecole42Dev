@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_create_elems.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:18:10 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 21:32:48 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+t_lists	*ft_create_elems(char *data)
 {
-	char *dest;
+	t_lists	*tmp;
 
-	if (str)
-	{
-		dest = str;
-		while (*dest != '\0')
-		{
-			ft_putchar(*dest);
-			dest++;
-		}
-		ft_putchar('\n');
-	}
+	tmp = (t_lists *)malloc(sizeof(t_lists));
+	tmp->next = NULL;
+	tmp->src = (char *)malloc(sizeof(char) * (ft_strlen(data) + 1));
+	if (! tmp->src)
+		return (NULL);
+	ft_strcpy(tmp->src, data);
+	return (tmp);
 }

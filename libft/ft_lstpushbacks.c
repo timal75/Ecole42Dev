@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstpushbacks.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:08:37 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 17:09:24 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+void	ft_lstpushbacks(t_lists **begin_list, char *data)
 {
-	char *dest;
+	t_lists		*list;
 
-	if (str)
+	list = *begin_list;
+	if (list)
 	{
-		dest = str;
-		while (*dest != '\0')
+		while (list->next)
 		{
-			ft_putchar(*dest);
-			dest++;
+			list = list->next;
 		}
-		ft_putchar('\n');
+		list->next = ft_create_elems(data);
 	}
+	else
+		*begin_list = ft_create_elems(data);
 }

@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstvaluens.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 21:42:59 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 22:41:44 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+char	*ft_lstvaluens(t_lists	*lst, int n)
 {
-	char *dest;
+	int		cpt;
 
-	if (str)
+	if ((lst) && n > 0)
 	{
-		dest = str;
-		while (*dest != '\0')
-		{
-			ft_putchar(*dest);
-			dest++;
-		}
-		ft_putchar('\n');
+		cpt = 0;
+		while ((lst) && (++cpt < n))
+			lst = lst->next;
+		if (cpt == n)
+			return (lst->src);
 	}
+	return (NULL);
 }

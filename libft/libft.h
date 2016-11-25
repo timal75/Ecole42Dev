@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/22 20:17:10 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/23 23:18:01 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,14 +119,26 @@ void				ft_lstadd(t_list **alst, t_list *new);
 void				ft_lstaddlast(t_list **alst, t_list *new);
 void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_listi				*ft_sort_listi(t_listi *lst, int (*cmp)(int, int));
+t_lists				*ft_sort_lists(t_lists *lst, int (*cmp)(char *, char*));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_listi				*ft_lstnewi(int data);
+t_lists				*ft_lstnews(char *data);
 void				ft_lstpushfronti(t_listi **begin_list, int data);
+void				ft_lstpushfronts(t_lists **begin_list, char *data);
 void				ft_lstpushbacki(t_listi **begin_list, int data);
+void				ft_lstpushbacks(t_lists **begin_list, char *data);
 t_listi				*ft_create_elemi(int data);
+t_lists				*ft_create_elems(char *data);
 void				ft_printlisti(t_listi *lst);
+void				ft_printlists(t_lists *lst);
 int					ft_lstsizei(t_listi *begin_list);
+int					ft_lstsizes(t_lists *begin_list);
 void				ft_lstcleari(t_listi **begin_list);
+void				ft_lstclears(t_lists **begin_list);
+char				*ft_lstvaluens(t_lists *lst, int n);
+int					ft_lstvalueni(t_listi *lst, int n);
+int					ft_lstvaluefoundi(t_listi *lst, int n);
+int					ft_lstvaluefounds(t_lists *lst, char *s);
 # define NEG(x) (((x) < 0) ? 1 : 0)
 # define ABS(x) (((x) < 0) ? -(x) : x)
 

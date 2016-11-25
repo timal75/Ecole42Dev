@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstclears.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:13:08 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 17:13:48 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+void	ft_lstclears(t_lists **begin_list)
 {
-	char *dest;
+	t_lists	*list;
+	t_lists	*next;
 
-	if (str)
+	list = *begin_list;
+	while (list)
 	{
-		dest = str;
-		while (*dest != '\0')
-		{
-			ft_putchar(*dest);
-			dest++;
-		}
-		ft_putchar('\n');
+		next = list->next;
+		free(list);
+		list = next;
 	}
+	*begin_list = NULL;
 }

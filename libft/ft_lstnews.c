@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstnews.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:15:01 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 21:32:35 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+t_lists		*ft_lstnews(char *data)
 {
-	char *dest;
+	t_lists		*newlist;
 
-	if (str)
-	{
-		dest = str;
-		while (*dest != '\0')
-		{
-			ft_putchar(*dest);
-			dest++;
-		}
-		ft_putchar('\n');
-	}
+	newlist = (t_lists *)malloc(sizeof(t_lists) * 1);
+	if (!newlist)
+		return (NULL);
+	newlist->src = (char *)malloc(sizeof(char) * (ft_strlen(data) + 1));
+	if (! newlist->src)
+		return (NULL);
+	ft_strcpy(newlist->src, data);
+	newlist->next = NULL;
+	return (newlist);
 }

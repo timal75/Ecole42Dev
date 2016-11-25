@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstsizes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:10:52 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 17:11:15 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+int	ft_lstsizes(t_lists *begin_list)
 {
-	char *dest;
+	t_lists	*list;
+	int		cpt;
 
-	if (str)
+	cpt = 0;
+	list = begin_list;
+	if (list)
 	{
-		dest = str;
-		while (*dest != '\0')
+		cpt = 1;
+		while (list->next)
 		{
-			ft_putchar(*dest);
-			dest++;
+			list = list->next;
+			cpt++;
 		}
-		ft_putchar('\n');
 	}
+	return (cpt);
 }

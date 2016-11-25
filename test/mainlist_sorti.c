@@ -23,7 +23,11 @@ int		main (void)
 	ft_lstpushbacki(lst1, 2);
 	ft_lstpushbacki(lst1, 3);
 	ft_lstpushbacki(lst1, -3);
+	
+	ft_printlisti (*lst1);
 
+	printf("valeur 3 ; %d\n" ,ft_lstvalueni(*lst1, 3));
+	printf("valeur 3 ; %d\n" ,ft_lstvaluefoundi(*lst1, 3));
 	printf("size est :%d\n",ft_lstsizei(*lst1));
 	ft_lstpushfronti(lst1,18);
 	ft_lstpushfronti(lst1,8);

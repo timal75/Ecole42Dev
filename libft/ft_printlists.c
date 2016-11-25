@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_printlists.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 17:01:47 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 21:25:48 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "libft.h"
 
-void	ft_putendl(char *str)
+void	ft_printlists(t_lists *lst)
 {
-	char *dest;
-
-	if (str)
+	if (lst)
 	{
-		dest = str;
-		while (*dest != '\0')
+		while (lst)
 		{
-			ft_putchar(*dest);
-			dest++;
+			ft_putendl(lst->src);
+			lst = lst->next;
 		}
-		ft_putchar('\n');
 	}
 }

@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl.c                                       :+:      :+:    :+:   */
+/*   ft_lstvaluefoundi.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/14 18:18:14 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:24:10 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/23 23:06:45 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/23 23:23:49 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putendl(char *str)
+int		ft_lstvaluefounds(t_lists *lst, char *s)
 {
-	char *dest;
+	int		cpt;
 
-	if (str)
+	if (lst)
 	{
-		dest = str;
-		while (*dest != '\0')
+		cpt = 1;
+		while ((lst) && (ft_strcmp(lst->src ,s) != 0))
 		{
-			ft_putchar(*dest);
-			dest++;
+			lst = lst->next;
+			cpt++;
 		}
-		ft_putchar('\n');
+		if (lst)
+			return (cpt);
 	}
+	return (0);
 }
