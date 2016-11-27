@@ -1,25 +1,50 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_listi.c                                   :+:      :+:    :+:   */
+/*   ft_lstdelni.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/22 16:14:43 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/25 20:45:12 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/25 20:10:04 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/25 22:23:24 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_printlisti(t_listi *lst)
+static void		ft_restlsts(t_lists *lst, int n)
 {
-	if (lst)
+	int		cpt;
+	t_lists	*prev;
+
+	cpt = 0;
+	while ((lst) && (++cpt < n))
 	{
-		while (lst)
-		{
-			ft_putnbreol(lst->data);
-			lst = lst->next;
-		}
+		prev = lst;
+		lst = lst->next;
 	}
+	if (cpt == n)
+	{
+		prev->next = lst->next;
+		free(lst);
+	}
+}
+
+t_lists			*ft_lstdelns(t_lists *lst, int n)
+{
+	int		cpt;
+	t_lists	*first;
+
+	first = lst;
+	if ((lst) && n > 0)
+	{
+		if (n == 1)
+		{
+			first = first->next;
+			free(lst);
+			return (first);
+		}
+		ft_reslsts(lst, n);
+	}
+	return (first);
 }

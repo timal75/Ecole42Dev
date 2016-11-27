@@ -6,13 +6,13 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 21:42:59 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 22:41:44 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/25 21:37:46 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_lstvaluens(t_lists	*lst, int n)
+char	*ft_lstvaluens(t_lists *lst, int n)
 {
 	int		cpt;
 

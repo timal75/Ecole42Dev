@@ -6,13 +6,13 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 23:06:45 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 23:13:10 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/25 21:47:29 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int		ft_lstvaluefoundi(t_listi	*lst, int n)
+int		ft_lstvaluefoundi(t_listi *lst, int n)
 {
 	int		cpt;
 

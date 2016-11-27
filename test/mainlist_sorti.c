@@ -37,6 +37,18 @@ int		main (void)
 	printf("\n");
 	ft_printlisti (*lst1);
 	printf("size est :%d\n",ft_lstsizei(*lst1));
+	*lst1 = ft_lstdelni(*lst1,5);
+	ft_printlisti (*lst1);
+	*lst1 = ft_lstdelni(*lst1,15);
+	ft_printlisti (*lst1);
+	*lst1 = ft_lstdelni(*lst1,1);
+	ft_printlisti (*lst1);
+	*lst1 = ft_lstdelni(*lst1,7);
+	ft_printlisti (*lst1);
+	*lst1 = ft_lstaddni(*lst1,125,3);
+	ft_printlisti (*lst1);
+	*lst1 = ft_lstaddni(*lst1,225,1);
+	ft_printlisti (*lst1);
 	ft_lstcleari(lst1);
 	free (lst1);
 	//free (lst2);

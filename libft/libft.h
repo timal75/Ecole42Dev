@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 23:18:01 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/25 21:36:22 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,9 @@ char				*ft_lstvaluens(t_lists *lst, int n);
 int					ft_lstvalueni(t_listi *lst, int n);
 int					ft_lstvaluefoundi(t_listi *lst, int n);
 int					ft_lstvaluefounds(t_lists *lst, char *s);
+t_listi				*ft_lstdelni(t_listi *lst, int n);
+t_lists				*ft_lstdelns(t_lists *lst, int n);
+t_listi				*ft_lstaddni(t_listi *lst, int data, int n);
 # define NEG(x) (((x) < 0) ? 1 : 0)
 # define ABS(x) (((x) < 0) ? -(x) : x)
 

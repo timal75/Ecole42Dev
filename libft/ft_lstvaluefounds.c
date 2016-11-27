@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstvaluefoundi.c                                :+:      :+:    :+:   */
+/*   ft_lstvaluefounds.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/23 23:06:45 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 23:23:49 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/25 22:25:01 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/25 22:25:07 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		ft_lstvaluefounds(t_lists *lst, char *s)
 	if (lst)
 	{
 		cpt = 1;
-		while ((lst) && (ft_strcmp(lst->src ,s) != 0))
+		while ((lst) && (ft_strcmp(lst->src, s) != 0))
 		{
 			lst = lst->next;
 			cpt++;

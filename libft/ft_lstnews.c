@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/23 17:15:01 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/23 21:32:35 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/25 21:48:06 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_lists		*ft_lstnews(char *data)
 	if (!newlist)
 		return (NULL);
 	newlist->src = (char *)malloc(sizeof(char) * (ft_strlen(data) + 1));
-	if (! newlist->src)
+	if (!newlist->src)
 		return (NULL);
 	ft_strcpy(newlist->src, data);
 	newlist->next = NULL;
