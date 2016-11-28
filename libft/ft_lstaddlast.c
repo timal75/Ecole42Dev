@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/19 18:51:37 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/19 18:56:59 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/28 01:38:20 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@ void		ft_lstaddlast(t_list **alst, t_list *new)
 
 	if ((alst) && (new))
 	{
-		lst = (*alst)->next;
-		next = (*alst)->next;
-		while (next)
+		if (*alst)
 		{
-			lst = next;
-			next = lst->next;
+			lst = *alst;
+			next = (*alst)->next;
+			while (next)
+			{
+				lst = next;
+				next = lst->next;
+			}
+			lst->next = new;
+			new->next = NULL;
 		}
-		lst->next = new;
-		new->next = NULL;
+		else
+			ft_lstadd(alst, new);
 	}
 }

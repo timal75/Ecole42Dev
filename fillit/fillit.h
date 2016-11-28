@@ -1,22 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/18 22:46:22 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 01:10:37 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/27 21:30:06 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/28 15:33:27 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef FILLIT_H
+# define FILLIT_H
+# include <string.h>
+# include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+typedef struct	s_map
 {
-	if ((alst) && (new))
-	{
-		(*new).next = *alst;
-		*alst = new;
-	}
-}
+	int			size;
+	char		**array;
+}				t_map;
+typedef struct	s_etris
+{
+	char		**pos;
+	int			width;
+	int			height;
+	char		value;
+}				t_etris;
+t_list			*read_tetri(int fd);
+t_etris			*tetris_new(char **pos, int width, int height, char c);
+#endif

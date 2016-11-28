@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 20:10:04 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/25 22:23:24 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/27 20:36:44 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void		ft_restlsts(t_lists *lst, int n)
 
 t_lists			*ft_lstdelns(t_lists *lst, int n)
 {
-	int		cpt;
 	t_lists	*first;
 
 	first = lst;
@@ -44,7 +43,7 @@ t_lists			*ft_lstdelns(t_lists *lst, int n)
 			free(lst);
 			return (first);
 		}
-		ft_reslsts(lst, n);
+		ft_restlsts(lst, n);
 	}
 	return (first);
 }

@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/18 22:46:22 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 01:10:37 by jblancha         ###   ########.fr       */
+/*   Created: 2016/11/28 02:34:36 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/28 02:34:53 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstadd(t_list **alst, t_list *new)
+size_t	ft_lstsize(t_list *lst)
 {
-	if ((alst) && (new))
+	size_t i;
+
+	i = 0;
+	while (lst != NULL)
 	{
-		(*new).next = *alst;
-		*alst = new;
+		lst = lst->next;
+		i++;
 	}
+	return (i);
 }

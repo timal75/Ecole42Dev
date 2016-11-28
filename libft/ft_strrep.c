@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd.c                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/18 22:46:22 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 01:10:37 by jblancha         ###   ########.fr       */
+/*   Created: 2016/09/05 17:55:42 by jblancha          #+#    #+#             */
+/*   Updated: 2016/11/27 20:12:00 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-void	ft_lstadd(t_list **alst, t_list *new)
+char	*ft_strrep(char *src, char to_find, char to_replace)
 {
-	if ((alst) && (new))
+	char	*dest1;
+
+	dest1 = src;
+	while (*src != '\0')
 	{
-		(*new).next = *alst;
-		*alst = new;
+		if (*src == to_find)
+			*src = to_replace;
+			src++;
 	}
+	return (dest1);
 }

@@ -6,13 +6,13 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/25 21:27:31 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/25 23:10:26 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/27 20:35:55 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		restlstaddns(t_lists *lst, char *data, int n)
+static void		ft_restlstaddns(t_lists *lst, char *data, int n)
 {
 	int		cpt;
 	t_lists	*prev;
@@ -35,7 +35,6 @@ t_lists			*ft_lstaddns(t_lists *lst, char *data, int n)
 	t_lists	*first;
 
 	first = lst;
-	prev = NULL;
 	if ((lst) && n > 0)
 	{
 		if (n == 1)
