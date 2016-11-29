@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 01:58:34 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 19:38:17 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/29 20:35:15 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ int			ft_maxlst(t_list *lst)
 			max = ((t_etris *)lst1->content)->height;
 		lst1 = lst1->next;
 	}
-	ft_putnbreol(max);
-			return(max);
+	return(max);
 }
 
 int			ft_findsizemap(t_list *lst)
@@ -87,6 +86,7 @@ int			ft_findsizemap(t_list *lst)
 	
 	sizelst = ft_maxlst(lst);
 	countlst = ft_countlst(ft_lstsize(lst) * 4);
+	ft_putnbreol(ft_lstsize(lst));
 	if (sizelst > countlst)
 		return (sizelst);
 	else
