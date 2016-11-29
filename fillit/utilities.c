@@ -6,9 +6,12 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 01:58:34 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 02:50:16 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/28 19:38:17 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+#include "fillit.h"
 
 t_etris		*tetris_new(char **pos, int width, int height, char value)
 {
@@ -22,7 +25,33 @@ t_etris		*tetris_new(char **pos, int width, int height, char value)
 	return (tetris);
 }
 
-int		ft_map_sizelst(int n)
+void	ft_max_size( char *str, int *tab)
+{
+	int		i;
+
+	i =0;
+	tab[0] = 3;
+	tab[1] = 3;
+	tab[2] = 0;
+	tab[3] = 0;
+	while (i < 20)
+	{
+		if (str[i] == '#')
+		{
+			if (( i / 5) < tab[1])
+				tab[1] = (i / 5);
+			if (( i / 5) > tab[3]) 
+				tab[3] = (i / 5);
+			if (( i % 5) < tab[0]) 
+				tab[0] = (i % 5);
+			if (( i % 5) > tab[2])
+				tab[2] = (i % 5);
+		}
+		i++;
+	}
+}
+
+int		ft_countlst(int n)
 {
 	int size;
 
@@ -34,22 +63,33 @@ int		ft_map_sizelst(int n)
 
 int			ft_maxlst(t_list *lst)
 {
-		int	max_x;
-		int	max_y;
-		int	i;
-		int	nb_tab;
+	int		max;
+	t_list	*lst1;
 		
-		max_x = 0;
-		max_y = 0;
-		if (lst)
-		{
-			while 
-		}
+	lst1 = lst;
+	max = 0;
+	while (lst1)
+	{
+		if (max < ((t_etris *)lst1->content)->width)
+			max = ((t_etris *)lst1->content)->width;
+		if (max < ((t_etris *)lst1->content)->height)
+			max = ((t_etris *)lst1->content)->height;
+		lst1 = lst1->next;
+	}
+	ft_putnbreol(max);
+			return(max);
 }
 
-int			ft_map_size(t_list *lst)
+int			ft_findsizemap(t_list *lst)
 {
 	int		sizelst;
-
-	sizelst = ft_map_sizelst(ft_lstcount(lst));
+	int		countlst;
+	
+	sizelst = ft_maxlst(lst);
+	countlst = ft_countlst(ft_lstsize(lst) * 4);
+	if (sizelst > countlst)
+		return (sizelst);
+	else
+		return (countlst);
 }
+

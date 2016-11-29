@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 02:33:52 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/28 19:36:42 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void				ft_printlisti(t_listi *lst);
 void				ft_printlists(t_lists *lst);
 int					ft_lstsizei(t_listi *begin_list);
 int					ft_lstsizes(t_lists *begin_list);
-int					ft_lstsze(t_list *begin_list);
+int					ft_lstsize(t_list *begin_list);
 void				ft_lstcleari(t_listi **begin_list);
 void				ft_lstclears(t_lists **begin_list);
 char				*ft_lstvaluens(t_lists *lst, int n);

@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 21:30:06 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 15:33:27 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/11/28 18:48:49 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ typedef struct	s_etris
 }				t_etris;
 t_list			*read_tetri(int fd);
 t_etris			*tetris_new(char **pos, int width, int height, char c);
+int         	ft_findsizemap(t_list *lst);
+void    		ft_max_size( char *str, int *tab);
 #endif
