@@ -1,35 +1,53 @@
-NAME	=	fillit	
-CC		=	gcc
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jblancha <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2016/12/01 19:28:01 by jblancha          #+#    #+#              #
+#    Updated: 2016/12/01 19:38:22 by jblancha         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-D_SRC	= 	srcs
-D_INC	=	includes
-D_OBJ	=	obj
+NAME	= fillit 
 
-O_FLAGS	=
-W_FLAGS	=	-Wall -Wextra -Werror
-DEBUG	=
-MKDIR	=	mkdir -p
-RM		=	/bin/rm -rf
+SRC		= main.c \
+		  utilities.c \
 
-F_SRC	:=	$(shell ls -1 $(D_SRC) | grep .c$$)
-F_OBJ	:=	$(F_SRC:.c=.o)
-F_OBJ	:=	$(addprefix $(D_OBJ)/, $(F_OBJ))
+OBJ		= $(addprefix $(OBJDIR),$(SRC:.c=.o))
 
-.PHONY: all clean fclean re
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror
 
-all: $(NAME)
+LIBFT	= ./libft/libft.a
+LIBINC	= -I./libft
+LIBLINK	= -L./libft -lft
 
-$(D_OBJ)/%.o: $(D_SRC)/%.c $(D_INC)
-	@$(MKDIR) $(D_OBJ)
-	$(CC) -I$(D_INC) $(O_FLAGS) $(W_FLAGS) -c $< -o $@ $(DEBUG)
+SRCDIR	= ./srcs/
+INCDIR	= ./includes/
+OBJDIR	= ./obj/
 
-$(NAME): $(F_OBJ)
-	$(CC) -I$(D_INC) $(O_FLAGS) $(W_FLAGS) $(F_OBJ) main.c -o $@ $(DEBUG)
+all: obj libft $(NAME)
+
+obj:
+	mkdir -p $(OBJDIR)
+
+$(OBJDIR)%.o:$(SRCDIR)%.c
+	$(CC) $(CFLAGS) $(LIBINC) -I $(INCDIR) -o $@ -c $<
+
+libft: $(LIBFT)
+
+$(LIBFT):
+	make -C ./libft
+
+$(NAME): $(OBJ)
+	$(CC) $(LIBLINK) -o $(NAME) $(OBJ)
 
 clean:
-	$(RM) $(D_OBJ)
+	rm -rf $(OBJDIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	rm -rf $(NAME)
 
 re: fclean all
