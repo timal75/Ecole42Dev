@@ -18,28 +18,19 @@
 void		ft_init_param_matrice (t_env *env)
 {
 	env->scale_w = ((((WIN_WIDTH)/(*env->field)->width))/4);
-	ft_putstr("scale_w "),ft_putnbreol(env->scale_w);
 	env->scale_h = (((WIN_HEIGHT)/(*env->field)->height))/4;
-	ft_putstr("scale_h "),ft_putnbreol(env->scale_h);
 	env->xcenter = XCENTER;
 	env->ycenter = YCENTER;
 	env->dy = (IMG_WIDTH/2) - (((*env->field)->width)/2 *env->scale_w);
-	ft_putstr("env dx "),ft_putnbreol(env->dy);
 	env->dx = (IMG_HEIGHT/2) - (((*env->field)->height)/2 * env->scale_h);
-	ft_putstr("env dy "),ft_putnbreol(env->dy);
-	env->alphax = (45.0f * M_PI) / 180.0f;
-	env->alphay = (45.0f * M_PI) / 180.0f;
+	env->alphax = (-45.0f * M_PI) / 180.0f;
+	env->alphay = (-35.0f * M_PI) / 180.0f;
 	env->dz = 0;
 }
 
 int 		ft_init_mlx(t_env *env)
 {
 	ft_init_param_matrice (env);
-	// env->dx = 150;
-	// env->dy = 150;
-	// env->dz = 0;
-	// env->scale_w = 50;
-	// env->scale_h = 50;
 	ft_createwindow (env);
 	
 	
@@ -147,7 +138,7 @@ void		ft_plotline (t_env *env,t_point point_ori, t_point point_des)
 		ft_putendl("ds else avt light pixel");
 		ft_lightpixel(point, env, ft_get_color(point_ori, point_des));
 		ft_putendl("ds else apreslight pixel");
-		printf("ds if x : %f, y : %f\n", point.x ,point.y);
+		printf("ds if x : %d, y : %d\n", point.x ,point.y);
 		param_line.e = (2 * param_line.dy) - param_line.dx;
 		param_line.inc1 = 2 * (param_line.dy - param_line.dx);
 		param_line.inc2 = 2 * param_line.dy;
@@ -163,7 +154,7 @@ void		ft_plotline (t_env *env,t_point point_ori, t_point point_des)
 				param_line.e = param_line.e + param_line.inc2;
 			point.x = point.x + param_line.incx;
 			ft_lightpixel(point, env, ft_get_color(point_ori, point_des));
-			printf("x : %f, y : %f\n", point.x ,point.y);
+			printf("x : %d, y : %d\n", point.x ,point.y);
 			i++;
 		} 
 	}
@@ -172,7 +163,7 @@ void		ft_plotline (t_env *env,t_point point_ori, t_point point_des)
 		ft_putendl("ds else avt light pixel");
 		ft_lightpixel(point, env, ft_get_color(point_ori, point_des));
 		ft_putendl("ds else apreslight pixel");
-		printf(" ds else x : %f, y : %f\n", point.x , point.y);
+		printf(" ds else x : %d, y : %d\n", point.x , point.y);
 		param_line.e = (2 * param_line.dx) - param_line.dy;
 		param_line.inc1 = 2 * (param_line.dx - param_line.dy);
 		param_line.inc2 = 2 * param_line.dx;
@@ -188,7 +179,7 @@ void		ft_plotline (t_env *env,t_point point_ori, t_point point_des)
 				param_line.e = param_line.e + param_line.inc2;
 			point.y = point.y + param_line.incy;
 			ft_lightpixel(point, env, ft_get_color(point_ori, point_des));
-			printf("x : %f, y : %f\n", point.x , point.y);
+			printf("x : %d, y : %d\n", point.x , point.y);
 			i++;
 		} 
 	}
@@ -229,7 +220,7 @@ void		ft_draw_field (t_field **field, t_env *env)
 				point_des.x = ((*field)->line[i].point[j + 1].x + 1) ;
 				point_des.y = ((*field)->line[i].point[j + 1].y + 1) ;
 				point_des.relief = (*field)->line[i].point[j + 1].relief;
-				printf("ligne horizontale point 1 : %f %f , point2 : %f %f\n", 
+				printf("ligne horizontale point 1 : %d %d , point2 : %d %d\n", 
 						point_ori.x, point_ori.y,point_des.x, point_des.y);
 				//ft_putstr("ds if x "), ft_putnbr(point_ori.x),ft_putstr("  y"), ft_putnbreol(point_ori.y);
 				ft_plotline (env, point_ori, point_des);
@@ -243,7 +234,7 @@ void		ft_draw_field (t_field **field, t_env *env)
 				point_des.x = ((*field)->line[i + 1].point[j].x + 1) ;
 				point_des.y = ((*field)->line[i + 1].point[j].y + 1) ;
 				point_des.relief = (*field)->line[i + 1].point[j].relief;
-				printf("ligne verticale point 1 : %f %f , point2 : %f %f\n", 
+				printf("ligne verticale point 1 : %d %d , point2 : %d %d\n", 
 						point_ori.x, point_ori.y,point_des.x, point_des.y);
 				ft_plotline (env, point_ori, point_des);
 			}

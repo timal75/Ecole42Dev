@@ -28,11 +28,11 @@ void	ft_matrice(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			printf("xo : %f, yo : %f, zo: %f\n", (*field_ori)->line[i].point[j].x, (*field_ori)->line[i].point[j].y ,(*field_ori)->line[i].point[j].z);
+			printf("xo : %d, yo : %d, zo: %d\n", (*field_ori)->line[i].point[j].x, (*field_ori)->line[i].point[j].y ,(*field_ori)->line[i].point[j].z);
 			(*field)->line[i].point[j].x = (*field_ori)->line[i].point[j].x * env->scale_w + env->dx;
 			(*field)->line[i].point[j].y = (*field_ori)->line[i].point[j].y * env->scale_h + env->dy;
 			(*field)->line[i].point[j].z = (*field_ori)->line[i].point[j].z + env->dz;
-			printf("xt : %f, yt : %f, zt: %f\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
+			printf("xt : %d, yt : %d, zt: %d\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
 			j++;
 		}
 		i++;
@@ -68,7 +68,7 @@ void 	ft_rotate(t_env *env)
 			(*field)->line[i].point[j].y = x * sin(env->alphay) * sin(env->alphax) + y * cos(env->alphax) - z * sin(env->alphax) * cos(env->alphay);
 			(*field)->line[i].point[j].z = x * cos(env->alphax) * sin(env->alphay)   + y * sin(env->alphax) + z * cos(env->alphay) * cos(env->alphax);
 			
-			printf("xt : %f, yt : %f, zt: %f\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
+			printf("xt : %d, yt : %d, zt: %d\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
 			j++;
 		}
 		i++;

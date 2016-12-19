@@ -31,10 +31,10 @@ typedef struct		s_line_param
 
 typedef struct		s_point
 {
-	float				x;
-	float				y;
-	float				z;
-	float				relief;
+	int				x;
+	int				y;
+	int				z;
+	int				relief;
 }					t_point;
 
 typedef struct		s_lines

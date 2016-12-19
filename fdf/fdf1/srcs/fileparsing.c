@@ -21,10 +21,10 @@ int			ft_push_point(int x, int y, int relief, t_field **field)
 
 	if (!(point = (t_point *)ft_memalloc(sizeof(t_point))))
 		return (0);
-	point->x = (float)x;
-	point->y = (float)y;
-	point->relief = (float)relief;
-	point->z = (float)relief;
+	point->x = x;
+	point->y = y;
+	point->relief = relief;
+	point->z = relief;
 	
 	if (!(temppoint = (t_point *)ft_memalloc(sizeof(t_point) * (y + 1))))
 		return (0);
