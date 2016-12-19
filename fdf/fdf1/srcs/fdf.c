@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:44:56 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/12 22:45:56 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/14 20:34:19 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,91 +14,13 @@
 #include "get_next_line.h"
 #include "fdf.h"
 
-int			ft_push_point(int x, int y, int relief, t_field **field)
-{
-	t_point		*point;
-	t_point		*temppoint;
-
-	if (!(point = (t_point *)ft_memalloc(sizeof(t_point))))
-		return (0);
-	(*point).x = x;
-	(*point).y = y;
-	(*point).relief = relief;
-	
-	temppoint = NULL;
-	if (!(temppoint) && (temppoint = (t_point *)ft_memalloc(sizeof(t_point) * (y + 1))))
-		return (0);
-	ft_memmove(temppoint, (*field)->line->point, sizeof((*field)->line->point));
-	free((*field)->line->point);
-	(*field)->line->point = temppoint;
-	(*field)->line[x].point[y] = *point;
-	(*field)->line[x].len = y;
-	
-	free(point);
-	return (1);
-
-}
-
-int			ft_push_line(t_field **field, char **line, int height)
-{
-	char		**tab;
-	int			i;
-	t_lines		*tmpline;
-
-	if (!(tab = (char **)ft_memalloc(sizeof(char *))))
-		return (0);
-	if (!(*field) && !((*field = (t_field *)ft_memalloc(sizeof(t_field)))))
-		return (0);
-		tmpline = (t_lines *)ft_memalloc(sizeof(t_lines) * (height + 1));
-		if (height != 0)
-		{
-			ft_memmove(tmpline,(*field)->line, sizeof((*field)->line));
-			free((*field)->line);
-		}
-		(*field)->line = tmpline;
-		(*field)->height = height;
-	tab = ft_strsplit(*line, ' ');
-	i = 0;
-	while (tab[i])
-	{
-		ft_push_point(height, i, ft_atoi(tab[i]), field);
-		i++;
-	}
-	i = 0;
-	while (tab[i])
-		free(tab[i++]);
-	free (tab);
-	return (1);
-}
-t_field		**ft_read_file(char	*filename)
-{
-	int			fd;
-	t_field		**field;
-	char		**line;
-	int			ret;
-	int			height;
-
-	if (!(line = (char **)ft_memalloc(sizeof(char *))))
-		return (NULL);
-	if (!(field = (t_field **)ft_memalloc(sizeof(t_field *))))
-		return (NULL);
-	*field = NULL;
-	if ((fd = open(filename,O_RDONLY)) == -1)
-		return (NULL);
-	height = 0;
-	while (((ret = get_next_line(fd,line)) > 0)
-			&& ((ft_push_line(field, line, height) ==  1)))
-			height++;
-	close(fd);
-	free (line);
-	return (field);
-}
-
 int		main(int argc, char **argv)
 {
-	//t_env		env;
 	t_field		**field;
+	t_field		**field_ori;
+	t_env		env;
 	int			i;
+	int			j;
 
 	if (argc != 2)
 	{
@@ -112,7 +34,68 @@ int		main(int argc, char **argv)
 	}
 	ft_putnbreol((*field)->height);
 	i = -1;
-	while (i++ < (*field)->height)
-		ft_putnbreol((*field)->line[i].len);
+	while (i++ < ((*field)->height - 1))
+	printf("ds main longueur line %d : %d\n", i, (*field)->line[i].len);
+	i = 0;
+	while ( i < (*field)->height)
+	{
+		j = 0;
+		while (j < (*field)->line[i].len)
+		{
+			ft_putnbr((*field)->line[i].point[j].relief);
+			ft_putstr("   ");
+			j++;
+		}
+		ft_putstr("\n");
+		i++;
+	}
+
+	env.field = field;
+	if (!(field_ori = (t_field **)ft_memalloc(sizeof(t_field *))))
+		return (1);
+	*field_ori = NULL;
+	if (!(*field_ori) && !((*field_ori = (t_field *)ft_memalloc(sizeof(t_field)))))
+		return (0);
+	(*field_ori)->height = (*field)->height;
+	i = 0;
+	(*field_ori)->line = (t_lines *)ft_memalloc(sizeof(t_lines) * (*field)->height);
+	while ( i < ((*field)->height))
+	{
+		(*field_ori)->line[i].len = (*field)->line[i].len;
+		(*field_ori)->line[i].point = (t_point *)ft_memalloc(sizeof(t_point) * (*field)->line[i].len);
+		ft_memcpy ((*field_ori)->line[i].point, (*field)->line[i].point, sizeof(t_point) * (*field)->line[i].len);
+		i++;
+	}
+	(*field_ori)->width = (*field_ori)->line[0].len;
+	(*field)->width = (*field)->line[0].len;
+	env.field_ori = field_ori;
+
+	ft_putendl("****************************************");
+	ft_putnbreol((*field_ori)->height);
+	i = -1;
+	while (i++ < ((*field_ori)->height - 1))
+	printf("ds main longueur line ori %d : %d\n", i, (*field)->line[i].len);
+	i = 0;
+	while ( i < (*field_ori)->height)
+	{
+		j = 0;
+		while (j < (*field_ori)->line[i].len)
+		{
+			ft_putnbr((*field_ori)->line[i].point[j].relief);
+			ft_putstr("   ");
+			j++;
+		}
+		ft_putstr("\n");
+		i++;
+	}
+	
+	
+	ft_init_mlx(&env);
+	ft_putendl("apres ft_init_mlx");
+	mlx_expose_hook(env.window, ft_expose_hook, &env);
+	ft_putendl("apres expose_hook");
+	mlx_loop(env.mlx);
+
+
 	return(0);
 }
