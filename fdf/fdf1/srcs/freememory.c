@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.c                                              :+:      :+:    :+:   */
+/*   freememory.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/12 14:44:56 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/22 23:31:42 by jblancha         ###   ########.fr       */
+/*   Created: 2016/12/22 22:04:55 by jblancha          #+#    #+#             */
+/*   Updated: 2016/12/22 23:17:53 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include "get_next_line.h"
 #include "fdf.h"
 
-int		main(int argc, char **argv)
+void	ft_freefield(t_field **field)
 {
-	t_field		**field;
-	t_env		env;
-	int			ret;
+	int		i;
 
-	if (argc != 2)
+	i = 0;
+	while (i < ((*field)->height))
 	{
-		ft_putendl("./fdf <file_name>");
-		return (0);
+		if ((*field)->line[i].point)
+			free((*field)->line[i].point);
+		i++;
 	}
-	if ((field = ft_read_file(argv[1])) == NULL)
-	{
-		ft_freefield(field);
-		ft_putendl("error");
-		return (0);
-	}
-	if ((ret = ft_init_field(&env, field)) == -1)
-		ft_freememory(&env);
-	ft_init_mlx(&env);
-	mlx_expose_hook(env.window, ft_expose_hook, &env);
-	mlx_loop(env.mlx);
-	return (0);
+	if ((*field)->line)
+		free((*field)->line);
+	if (*field)
+		free(*field);
+	if (field)
+		free(field);
+}
+
+void	ft_freememory(t_env *env)
+{
+	ft_freefield(env->field);
+	ft_freefield(env->field_ori);
 }

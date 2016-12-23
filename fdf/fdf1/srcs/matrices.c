@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 20:30:25 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/16 20:50:29 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/22 23:00:32 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,84 @@
 
 void	ft_matrice(t_env *env)
 {
-	t_field 	**field;
-	t_field 	**field_ori;
+	ft_matrice_scale(env);
+	ft_matrice_rotate(env);
+	ft_matrice_trans(env);
+}
+
+void	ft_matrice_scale(t_env *env)
+{
+	t_field		**field;
+	t_field		**field_ori;
 	int			i;
 	int			j;
 
-	ft_rotate(env);
+	field = env->field;
+	field_ori = env->field_ori;
+	i = 0;
+	while (i < (*field)->height)
+	{
+		j = 0;
+		while (j < (*field)->line[i].len)
+		{
+			field(i, j).x = field_ori(i, j).x * env->scale;
+			field(i, j).y = field_ori(i, j).y * env->scale;
+			field(i, j).z = field_ori(i, j).z * 1.0;
+			j++;
+		}
+		i++;
+	}
+}
+
+void	ft_matrice_trans(t_env *env)
+{
+	t_field		**field;
+	t_field		**field_ori;
+	int			i;
+	int			j;
+
 	field = env->field;
 	field_ori = env->field;
 	i = 0;
-	while ( i < (*field)->height)
+	while (i < (*field)->height)
 	{
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			printf("xo : %d, yo : %d, zo: %d\n", (*field_ori)->line[i].point[j].x, (*field_ori)->line[i].point[j].y ,(*field_ori)->line[i].point[j].z);
-			(*field)->line[i].point[j].x = (*field_ori)->line[i].point[j].x * env->scale_w + env->dx;
-			(*field)->line[i].point[j].y = (*field_ori)->line[i].point[j].y * env->scale_h + env->dy;
-			(*field)->line[i].point[j].z = (*field_ori)->line[i].point[j].z + env->dz;
-			printf("xt : %d, yt : %d, zt: %d\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
+			field(i, j).x = field_ori(i, j).x + env->dx;
+			field(i, j).y = field_ori(i, j).y + env->dy;
+			field(i, j).z = field_ori(i, j).z + env->dz;
 			j++;
 		}
 		i++;
 	}
-	ft_putendl("fin matrice transalation");
 }
 
-void 	ft_rotate(t_env *env)
+void	ft_matrice_rotate(t_env *env)
 {
-	t_field 	**field;
-	t_field 	**field_ori;
+	t_field		**field;
+	t_field		**field_ori;
 	int			i;
 	int			j;
-	int 		x;
-	int 		y;
-	int 		z;
 
-	field_ori = env->field_ori;
+	field_ori = env->field;
 	field = env->field;
-	
 	i = 0;
-	while ( i < (*field)->height)
+	while (i < (*field)->height)
 	{
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			x = (*field_ori)->line[i].point[j].x;
-			y = (*field_ori)->line[i].point[j].y;
-			z = (*field_ori)->line[i].point[j].z;
-			printf("x : %d, y : %d, z: %d\n", x, y ,z);
-			//(*field)->line[i].point[j].y = x * cos(env->alphax) - z * sin(env->alphax)
-			(*field)->line[i].point[j].x = x * cos(env->alphay) + z * sin(env->alphay);
-			(*field)->line[i].point[j].y = x * sin(env->alphay) * sin(env->alphax) + y * cos(env->alphax) - z * sin(env->alphax) * cos(env->alphay);
-			(*field)->line[i].point[j].z = x * cos(env->alphax) * sin(env->alphay)   + y * sin(env->alphax) + z * cos(env->alphay) * cos(env->alphax);
-			
-			printf("xt : %d, yt : %d, zt: %d\n", (*field)->line[i].point[j].x, (*field)->line[i].point[j].y ,(*field)->line[i].point[j].z);
+			field(i, j).x = cosy * (sinz * field(i, j).y + cosz *
+					field(i, j).x) - siny * field(i, j).z;
+			field(i, j).y = sinx * (cosy * field(i, j).z + siny *
+					(sinz * field(i, j).y + cosz * field(i, j).x)) +
+					cosx * (cosz * field(i, j).y - sinz * field(i, j).x);
+			field(i, j).z = cosx * (cosy * field(i, j).z + siny *
+					(sinz * field(i, j).y + cosz * field(i, j).x))
+				+ sinx * (cosz * field(i, j).y - sinz * field(i, j).x);
 			j++;
 		}
 		i++;
 	}
-	ft_putendl("fin matrice rotation");
-
 }
-
