@@ -6,23 +6,21 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/29 22:32:10 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/29 22:32:35 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:26:16 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h" 
-
+#include "fdf.h"
 
 void	ft_legende(t_env *e)
 {
 	ft_legende_cmd(e);
 	ft_legende_pos(e);
 	ft_legende_rot(e);
-	ft_legende_scale(e);	
+	ft_legende_scale(e);
 }
 
-
-void	ft_legende_cmd (t_env *e)
+void	ft_legende_cmd(t_env *e)
 {
 	char	*str;
 
@@ -44,7 +42,6 @@ void	ft_legende_cmd (t_env *e)
 	mlx_string_put(e->mlx, e->window, 5, 110, 0x708D23, str);
 	str = "echap : quitter";
 	mlx_string_put(e->mlx, e->window, 5, 125, 0x708D23, str);
-
 }
 
 void	ft_legende_pos(t_env *e)

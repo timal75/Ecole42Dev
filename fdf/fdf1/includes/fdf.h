@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 16:00:52 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/29 21:03:37 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:54:33 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void						ft_freememory(t_env *env);
 int 						ft_key_hook_trans(int keycode, t_env *e);
 int 						ft_key_hook_rot(int keycode, t_env *e);
 int 						ft_key_hook_scale(int keycode, t_env *e);
-int 						ft_key_hook_scalez(int keycode, t_env *e);
+int 						ft_key_hook_z(int keycode, t_env *e);
 void						ft_init_param_matrice (t_env *env);
 void						ft_freefield(t_field **field);
 int 						ft_init_field(t_env *env, t_field **field);
@@ -172,10 +172,10 @@ void 						ft_getcolor(t_point *point, char *str);
 int 						ft_convertcolor(char c, char d);
 int 						ft_decimal(char d);
 int 						ft_zbuffer(t_point point, t_env *env);
-void 						ft_draw_point(t_env *env);
 void						ft_lightpoint(t_point point, t_env *env);
 int 						ft_init_tab(t_env *env);
 void						ft_freetab(t_env *env);
+int							ft_init(t_env *env, t_field **field);
 
 
 #endif

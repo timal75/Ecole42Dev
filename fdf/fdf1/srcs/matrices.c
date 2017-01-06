@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 20:30:25 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/22 23:00:32 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:20:51 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_matrice_scale(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			field(i, j).x = field_ori(i, j).x * env->scale; 
+			field(i, j).x = field_ori(i, j).x * env->scale;
 			field(i, j).y = field_ori(i, j).y * env->scale;
 			field(i, j).z = field_ori(i, j).z * env->scalez;
 			field(i, j).relief = field_ori(i, j).relief * env->scalez;

@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 21:22:50 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/22 23:15:33 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 22:14:40 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,10 @@ int			ft_init_field(t_env *env, t_field **field)
 	return (0);
 }
 
-int 		ft_init_tab(t_env *env)
+int			ft_init_tab(t_env *env)
 {
-	int 		i;
-	int 		j;
+	int		i;
+	int		j;
 
 	env->tab = (int **)ft_memalloc(sizeof(int *) * (IMG_WIDTH + 1));
 	if (!env->tab)
@@ -94,8 +94,7 @@ int 		ft_init_tab(t_env *env)
 	i = 0;
 	while (i < (IMG_WIDTH + 1))
 	{
-		env->tab[i] = (int *)ft_memalloc(sizeof(int) * (IMG_HEIGHT + 1));
-		if (!env->tab[i])
+		if (!(env->tab[i] = (int *)ft_memalloc(sizeof(int) * (IMG_HEIGHT + 1))))
 			return (-1);
 		i++;
 	}

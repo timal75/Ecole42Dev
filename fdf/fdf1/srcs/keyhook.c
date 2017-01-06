@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/23 01:30:04 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/23 01:30:07 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:33:12 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int			ft_key_hook_rot(int keycode, t_env *e)
 	}
 	if (keycode == KEY_2)
 	{
-		e->xalpha = e->xalpha - 10; 
+		e->xalpha = e->xalpha - 10;
 		e->alphax = e->alphax - ((10.0f * M_PI) / 180.0f);
 	}
 	if (keycode == KEY_4)
@@ -46,6 +46,19 @@ int			ft_key_hook_rot(int keycode, t_env *e)
 	{
 		e->yalpha = e->yalpha - 10;
 		e->alphay = e->alphay - ((10.0f * M_PI) / 180.0f);
+	}
+	return (0);
+}
+
+int			ft_key_hook_z(int keycode, t_env *e)
+{
+	if (keycode == KEY_PAGEUP)
+	{
+		e->scalez = e->scalez + 1.5;
+	}
+	if (keycode == KEY_PAGEDOWN)
+	{
+		e->scalez = e->scalez - 1.5;
 	}
 	if (keycode == KEY_7)
 	{
@@ -60,22 +73,9 @@ int			ft_key_hook_rot(int keycode, t_env *e)
 	return (0);
 }
 
-int			ft_key_hook_scalez(int keycode, t_env *e)
-{
-	if (keycode == KEY_PAGEUP)
-	{
-		e->scalez = e->scalez + 1.5;
-	}
-	if (keycode == KEY_PAGEDOWN)
-	{
-		e->scalez = e->scalez - 1.5;
-	}
-	return (0);
-}
-
 int			ft_key_hook_scale(int keycode, t_env *e)
 {
-	int 	calcul;
+	int		calcul;
 
 	calcul = 1;
 	if (e->scalez != ft_reliefscale(e))
@@ -103,7 +103,7 @@ int			ft_key_hook(int keycode, t_env *e)
 	if (keycode == KEY_RESET)
 		ft_init_param_matrice(e);
 	ft_key_hook_scale(keycode, e);
-	ft_key_hook_scalez(keycode, e);
+	ft_key_hook_z(keycode, e);
 	ft_key_hook_rot(keycode, e);
 	ft_key_hook_trans(keycode, e);
 	ft_expose_hook(e);

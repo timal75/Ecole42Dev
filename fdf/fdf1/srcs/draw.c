@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 20:37:51 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/27 20:33:11 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:34:22 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void		ft_lightpixel(t_point point, t_env *env, int color)
 			&& (point.x >= 0 && point.x < IMG_WIDTH)
 			&& !(point.y <= 230 && point.x <= 400))
 	{
-
-		i = (point.y * env->s_lines) + (point.x * (env->bpp / 8));
-		env->data_adress[i] = color;
-		env->data_adress[++i] = color >> 8;
-		env->data_adress[++i] = color >> 16;
+		if (ft_zbuffer(point, env))
+		{
+			i = (point.y * env->s_lines) + (point.x * (env->bpp / 8));
+			env->data_adress[i] = color;
+			env->data_adress[++i] = color >> 8;
+			env->data_adress[++i] = color >> 16;
+		}
 	}
 }
 
@@ -32,6 +34,10 @@ int			ft_get_color(t_point point_ori, t_point point_des)
 {
 	int			color;
 
+	if (point_ori.color == 1)
+		return (point_ori.r << 16 | point_ori.g << 8 | point_ori.b);
+	if (point_des.color == 1)
+		return (point_des.r << 16 | point_des.g << 8 | point_des.b);
 	color = 0xFF6666;
 	if ((point_ori.relief > 0) || (point_des.relief > 0))
 		color = 0x33FF66;

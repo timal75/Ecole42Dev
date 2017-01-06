@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:44:56 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/23 00:37:46 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:35:06 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int			ft_push_point(int x, int y, char *str, t_field **field)
 {
 	t_point		*point;
 	t_point		*temppoint;
-	int 		relief;
+	int			relief;
 
 	if (!(point = (t_point *)ft_memalloc(sizeof(t_point))))
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 22:04:55 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/27 21:51:15 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/06 21:36:04 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_freememory(t_env *env)
 
 void	ft_freetab(t_env *env)
 {
-	int 	i;
+	int		i;
 
 	i = 0;
 	while (i < (IMG_WIDTH + 1))
@@ -89,6 +89,6 @@ int		ft_reliefscale(t_env *env)
 		scale = env->scale / ((relief->max - relief->min));
 	else
 		scale = 1;
-	free (relief);
+	free(relief);
 	return (scale == 0 ? 1 : scale);
 }
