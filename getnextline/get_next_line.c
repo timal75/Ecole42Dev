@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 18:30:22 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/07 14:31:37 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/29 17:57:02 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ int		ft_treat_file(const int fd, char **line, char **buf)
 		*buf = temp;
 		return (1);
 	}
+	ret = 0;
 	*line = ft_strdup(*buf);
-	return (0);
+	if (ft_strlen(*buf) > 0)
+		ret = 1;
+	**buf = '\0';
+	return (ret);
 }
 
 t_file	*getfile(t_list **lst, const int fd)
@@ -88,26 +92,24 @@ t_file	*getfile(t_list **lst, const int fd)
 void	ft_delfile(t_list **lst, const int fd)
 {
 	t_list		**lst1;
-	t_list		*next;
 	t_file		*fl1;
 	int			trouve;
 
-	trouve = 0;
 	lst1 = lst;
+	trouve = 0;
 	while (*lst1 && !(trouve))
 	{
 		fl1 = (t_file *)((*lst1)->content);
 		if (fl1->fd == fd)
 			trouve = 1;
-		*lst1 = (*lst1)->next;
+		if (!trouve)
+			*lst1 = (*lst1)->next;
 	}
 	if (*lst1)
 	{
-		next = (*lst1)->next;
 		ft_memdel((void **)(&fl1->buf));
 		ft_memdel((void **)&fl1);
-		ft_memdel((void **)&lst1);
-		*lst1 = next;
+		ft_memdel((void **)lst1);
 	}
 }
 
@@ -117,12 +119,11 @@ int		get_next_line(const int fd, char **line)
 	t_file			*file;
 	int				ret;
 
-	sleep (10);
-	if ((fd <= 0) || (!line) || (BUFF_SIZE <= 0))
+	if ((fd < 0) || (!line) || (BUFF_SIZE <= 0))
 		return (-1);
 	file = getfile(&lst, fd);
 	ret = ft_treat_file(fd, line, &(file->buf));
-	if (ret == 0)
+	if (ret != 1)
 		ft_delfile(&lst, fd);
 	return (ret);
 }

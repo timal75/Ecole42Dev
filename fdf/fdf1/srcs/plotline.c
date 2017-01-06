@@ -83,9 +83,32 @@ void		ft_plotline(t_env *env, t_point point_ori, t_point point_des)
 {
 	t_line_param	param_line;
 
-	ft_get_line_param(&param_line, point_ori, point_des);
-	if (param_line.dx > param_line.dy)
-		ft_penteinf(env, point_ori, point_des);
-	else
-		ft_pentesup(env, point_ori, point_des);
+	// if (ft_zbuffer(point_ori, env) && ft_zbuffer(point_des, env))
+	// {	
+		ft_get_line_param(&param_line, point_ori, point_des);
+		if (param_line.dx > param_line.dy)
+			ft_penteinf(env, point_ori, point_des);
+		else
+			ft_pentesup(env, point_ori, point_des);
+	// }
 }
+
+// int 		ft_zbuffer(t_point point, t_env *env)
+// {
+// 	//return (1);
+// 	if ((point.x < (IMG_WIDTH + 1)) && (point.x >= 0) 
+// 		&& (point.y < (IMG_HEIGHT + 1)) && (point.y >= 0)
+// 		&& ((point.z >= env->tab[point.x][point.y])
+// 			|| ABS(point.z - env->tab[point.x][point.y]) < 2))
+// 	{
+// 		env->tab[point.x][point.y] = point.z;
+// 	 	return (1);
+// 	}
+// 	if ((point.x < (IMG_WIDTH + 1)) && (point.x >= 0) && (point.y >= 0) &&(point.y < (IMG_HEIGHT + 1)))
+// 	{
+// 	ft_putendl("pas imprime");
+// 	ft_putstr("x "),ft_putnbr(point.x),ft_putstr("   y "),ft_putnbreol(point.y);
+// 		ft_putstr("old z : "),ft_putnbr(env->tab[point.x][point.y]),ft_putstr("  new z : "),ft_putnbreol(point.z);
+// 	}
+// 	return (0);
+// }

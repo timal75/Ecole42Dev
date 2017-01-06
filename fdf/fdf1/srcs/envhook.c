@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/14 20:37:51 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/22 23:51:25 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/29 22:03:47 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ int			ft_mouse_hook(int button, int x, int y, t_env *env)
 
 int			ft_expose_hook(t_env *env)
 {
+	ft_putstr("***********************************************\n");
+	ft_putstr("***********************************************\n");
 	ft_createimage(env);
 	ft_matrice(env);
 	ft_draw_field(env->field, env);
+	// ft_draw_point(env);
 	mlx_put_image_to_window(env->mlx, env->window, env->image, 0, 0);
+	ft_legende(env);
 	mlx_key_hook(env->window, ft_key_hook, env);
 	mlx_mouse_hook(env->window, ft_mouse_hook, env);
 	mlx_destroy_image(env->mlx, env->image);

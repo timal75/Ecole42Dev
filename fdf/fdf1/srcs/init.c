@@ -15,13 +15,18 @@
 void		ft_init_param_matrice(t_env *env)
 {
 	env->scale = scale_w > scale_h ? scale_h : scale_w;
+	env->scale = env->scale > 5 ? env->scale : 5;
+	env->scalez = ft_reliefscale(env);
 	env->xcenter = XCENTER;
 	env->ycenter = YCENTER;
 	env->dx = (IMG_WIDTH / 2) - (((*env->field)->width) / 2 * env->scale);
 	env->dy = (IMG_HEIGHT / 2) - (((*env->field)->height) / 2 * env->scale);
-	env->alphax = (-45.0f * M_PI) / 180.0f;
+	env->xalpha = -40;
+	env->alphax = (-40.0f * M_PI) / 180.0f;
+	env->yalpha = 0;
 	env->alphay = (0.0f * M_PI) / 180.0f;
-	env->alphaz = (-30.0f * M_PI) / 180.0f;
+	env->zalpha = -40;
+	env->alphaz = (-40.0f * M_PI) / 180.0f;
 	env->dz = 0;
 }
 
@@ -75,5 +80,35 @@ int			ft_init_field(t_env *env, t_field **field)
 	(*field_ori)->height = (*field)->height;
 	if ((i = ft_copyfield(env) == -1))
 		return (-1);
+	return (0);
+}
+
+int 		ft_init_tab(t_env *env)
+{
+	int 		i;
+	int 		j;
+
+	env->tab = (int **)ft_memalloc(sizeof(int *) * (IMG_WIDTH + 1));
+	if (!env->tab)
+		return (-1);
+	i = 0;
+	while (i < (IMG_WIDTH + 1))
+	{
+		env->tab[i] = (int *)ft_memalloc(sizeof(int) * (IMG_HEIGHT + 1));
+		if (!env->tab[i])
+			return (-1);
+		i++;
+	}
+	i = 0;
+	while (i < (IMG_WIDTH + 1))
+	{
+		j = 0;
+		while (j < (IMG_HEIGHT + 1))
+		{
+			env->tab[i][j] = -999999999;
+			j++;
+		}
+		i++;
+	}
 	return (0);
 }

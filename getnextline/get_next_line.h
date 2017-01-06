@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 18:44:00 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/07 14:03:09 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/28 20:33:44 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <fcntl.h>
 # include <string.h>
 
-typedef struct  s_file
+typedef struct		s_file
 {
-		int         fd;
-      	char        *buf;
-}              t_file;
-int get_next_line(const int fd, char **line);
-# define BUFF_SIZE 50
+	int				fd;
+	char			*buf;
+}					t_file;
+int					get_next_line(const int fd, char **line);
+# define BUFF_SIZE 10
 # define NEG(x) (((x) < 0) ? 1 : 0)
 # define ABS(x) (((x) < 0) ? -(x) : x)
 

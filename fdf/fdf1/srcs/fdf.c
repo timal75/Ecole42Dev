@@ -17,6 +17,9 @@ int		main(int argc, char **argv)
 	t_field		**field;
 	t_env		env;
 	int			ret;
+	int  		i;	
+	int 		j;	
+
 
 	if (argc != 2)
 	{
@@ -29,8 +32,32 @@ int		main(int argc, char **argv)
 		ft_putendl("error");
 		return (0);
 	}
+  	i = -1;		  
+ 	while (i++ < (*field)->height - 1)
+ 		printf("ds main longueur line %d : %d\n", i, (*field)->line[i].len);
+ 	i = 0;
+ 	while ( i < (*field)->height)
+ 	{
+ 		j = 0;
+ 		while (j < (*field)->line[i].len)
+ 		{
+ 			ft_putnbr((*field)->line[i].point[j].z);
+ 			ft_putstr("   ");
+ 			j++;
+ 		}
+ 		ft_putstr("\n");
+ 		i++;
+ 	}
 	if ((ret = ft_init_field(&env, field)) == -1)
+	{
 		ft_freememory(&env);
+		return (1);
+	}
+	if ((ret = ft_init_tab(&env)) == -1)
+	{
+		ft_freememory(&env);
+		return (1);
+	}
 	ft_init_mlx(&env);
 	mlx_expose_hook(env.window, ft_expose_hook, &env);
 	mlx_loop(env.mlx);

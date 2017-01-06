@@ -13,11 +13,14 @@ int		main (int argc, char **argv)
 		return (EXIT_FAILURE);
 	if ((fd = open(argv[1], O_RDONLY)) == -1)
 		return (EXIT_FAILURE);
+	sleep(15);
 	while ((ret = get_next_line(fd, &line)) > 0)
 	{		
 		printf("%s\n", line);
 		free(line);
 	}
+	free(line);
+	line = NULL;
 	close(fd);
 	//sleep(30);
 	return (EXIT_SUCCESS);

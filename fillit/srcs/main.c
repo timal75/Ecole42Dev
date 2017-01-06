@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 17:39:35 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/01 22:11:52 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/23 18:10:02 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -362,6 +362,7 @@ int			main(int argc, char **argv)
 	t_list	**lst;
 	t_map	*map;
 
+	sleep(15);
 	if (ft_nbargnotvalide(argc))
 		return (1);
 	if ((fc = open(argv[1], O_RDONLY)) == -1)
@@ -382,5 +383,6 @@ int			main(int argc, char **argv)
 		ft_freelst(lst);
 		close(fc);
 	}
+	sleep(15);
 	return (0);
 }

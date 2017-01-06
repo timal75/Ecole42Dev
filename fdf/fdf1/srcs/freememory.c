@@ -6,12 +6,10 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 22:04:55 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/22 23:17:53 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/27 21:51:15 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "get_next_line.h"
 #include "fdf.h"
 
 void	ft_freefield(t_field **field)
@@ -37,4 +35,60 @@ void	ft_freememory(t_env *env)
 {
 	ft_freefield(env->field);
 	ft_freefield(env->field_ori);
+	ft_freetab(env);
+}
+
+void	ft_freetab(t_env *env)
+{
+	int 	i;
+
+	i = 0;
+	while (i < (IMG_WIDTH + 1))
+	{
+		if (env->tab[i])
+			ft_memdel((void **)&env->tab[i]);
+		i++;
+	}
+	if (env->tab)
+		ft_memdel((void **)&env->tab);
+}
+
+void	ft_relief(t_env *env, t_relief *relief)
+{
+	t_field		**field;
+	int			i;
+	int			j;
+
+	field = env->field;
+	i = 0;
+	relief->max = (*field)->line[0].point[0].relief;
+	relief->min = (*field)->line[0].point[0].relief;
+	while (i < (*field)->height)
+	{
+		j = 0;
+		while (j < (*field)->line[i].len)
+		{
+			if ((*field)->line[i].point[j].relief > relief->max)
+				relief->max = (*field)->line[i].point[j].relief;
+			if ((*field)->line[i].point[j].relief < relief->min)
+				relief->min = (*field)->line[i].point[j].relief;
+			j++;
+		}
+		i++;
+	}
+}
+
+int		ft_reliefscale(t_env *env)
+{
+	t_relief	*relief;
+	int			scale;
+
+	relief = (t_relief *)ft_memalloc(sizeof(relief));
+	ft_relief(env, relief);
+	if (relief->max != relief->min)
+		scale = env->scale / ((relief->max - relief->min));
+	else
+		scale = 1;
+	free (relief);
+	return (scale == 0 ? 1 : scale);
 }

@@ -34,9 +34,10 @@ void	ft_matrice_scale(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			field(i, j).x = field_ori(i, j).x * env->scale;
+			field(i, j).x = field_ori(i, j).x * env->scale; 
 			field(i, j).y = field_ori(i, j).y * env->scale;
-			field(i, j).z = field_ori(i, j).z * 1.0;
+			field(i, j).z = field_ori(i, j).z * env->scalez;
+			field(i, j).relief = field_ori(i, j).relief * env->scalez;
 			j++;
 		}
 		i++;

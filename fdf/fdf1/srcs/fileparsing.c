@@ -12,17 +12,20 @@
 
 #include "fdf.h"
 
-int			ft_push_point(int x, int y, int relief, t_field **field)
+int			ft_push_point(int x, int y, char *str, t_field **field)
 {
 	t_point		*point;
 	t_point		*temppoint;
+	int 		relief;
 
 	if (!(point = (t_point *)ft_memalloc(sizeof(t_point))))
 		return (0);
+	relief = ft_atoi(str);
 	point->x = y;
 	point->y = x;
 	point->relief = relief;
 	point->z = relief;
+	ft_getcolor(point, str);
 	if (!(temppoint = (t_point *)ft_memalloc(sizeof(t_point) * (y + 1))))
 		return (0);
 	if (y != 0)
@@ -48,7 +51,7 @@ int			ft_linesplit(t_field **field, int height, char **line)
 	i = 0;
 	while (tab[i])
 	{
-		ft_push_point(height, i, ft_atoi(tab[i]), field);
+		ft_push_point(height, i, tab[i], field);
 		i++;
 	}
 	i = 0;

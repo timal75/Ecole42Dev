@@ -26,7 +26,7 @@ all: $(NAME)
 
 $(D_OBJ)/%.o: $(D_SRCS)/%.c $(D_INC)
 	@$(MKDIR) $(D_OBJ)
-	$(CC) -I$(D_INC) $(O_FLAGS) $(W_FLAGS) -c $< -o $@ $(DEBUG)
+	$(CC) -I$(D_INC) $(O_FLAGS) $(W_FLAGS1) -c $< -o $@ $(DEBUG)
 
 $(NAME): $(F_OBJ) $(F_INC) 
 		Make -C libft/
