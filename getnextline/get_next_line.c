@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 18:30:22 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/29 17:57:02 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/28 16:48:54 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		ft_treat_file(const int fd, char **line, char **buf)
 t_file	*getfile(t_list **lst, const int fd)
 {
 	t_list		*lst1;
+	t_list		*lst2;
 	t_file		*fl1;
 
 	lst1 = *lst;
@@ -91,25 +92,24 @@ t_file	*getfile(t_list **lst, const int fd)
 
 void	ft_delfile(t_list **lst, const int fd)
 {
-	t_list		**lst1;
+	t_list		*lst1;
+	t_list		*lst2;
 	t_file		*fl1;
 	int			trouve;
 
-	lst1 = lst;
+	lst1 = *lst;
 	trouve = 0;
-	while (*lst1 && !(trouve))
+	while (lst1 && !(trouve))
 	{
-		fl1 = (t_file *)((*lst1)->content);
+		fl1 = (t_file *)(lst1->content);
 		if (fl1->fd == fd)
+		{
+			ft_memdel((void **)(&fl1->buf));
+			ft_lstdelmaillon(lst, lst1);	
 			trouve = 1;
+		}
 		if (!trouve)
-			*lst1 = (*lst1)->next;
-	}
-	if (*lst1)
-	{
-		ft_memdel((void **)(&fl1->buf));
-		ft_memdel((void **)&fl1);
-		ft_memdel((void **)lst1);
+			lst1 = lst1->next;
 	}
 }
 

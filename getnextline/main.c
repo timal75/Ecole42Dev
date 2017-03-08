@@ -8,22 +8,60 @@ int		main (int argc, char **argv)
 	//int		out;
 	//int		p[2];
 	int		fd;
+   int      fd2;
+   int      fd3;
 
-	if (argc != 2)
-		return (EXIT_FAILURE);
-	if ((fd = open(argv[1], O_RDONLY)) == -1)
-		return (EXIT_FAILURE);
-	sleep(15);
-	while ((ret = get_next_line(fd, &line)) > 0)
-	{		
-		printf("%s\n", line);
-		free(line);
-	}
-	free(line);
-	line = NULL;
-	close(fd);
-	//sleep(30);
-	return (EXIT_SUCCESS);
+// 	if (argc != 2)
+// 		return (EXIT_FAILURE);
+// 	if ((fd = open(argv[1], O_RDONLY)) == -1)
+// 		return (EXIT_FAILURE);
+// 	sleep(15);
+// 	while ((ret = get_next_line(fd, &line)) > 0)
+// 	{		
+// 		printf("%s\n", line);
+// 		free(line);
+// 	}
+// 	free(line);
+// 	line = NULL;
+// 	close(fd);
+// 	//sleep(30);
+// 	return (EXIT_SUCCESS);
+// }
+
+if ((fd = open(argv[1], O_RDONLY)) == -1)
+       return (EXIT_FAILURE);
+if ((fd2 = open(argv[2], O_RDONLY)) == -1)
+       return (EXIT_FAILURE);
+if ((fd3 = open(argv[3], O_RDONLY)) == -1)
+       return (EXIT_FAILURE);
+
+ret = get_next_line(fd, &line);
+printf("%s %d\n", line, ret);
+ret = get_next_line(fd2, &line);
+printf("%s\n", line);
+ret = get_next_line(fd2, &line);
+ret = get_next_line(fd3, &line);
+printf("%s\n", line);
+
+while ((ret = get_next_line(fd, &line)) > 0)
+   {     
+      printf("%s\n", line);
+      free(line);
+   }
+   free(line);
+   line = NULL;
+   close(fd);
+
+while ((ret = get_next_line(fd3, &line)) > 0)
+   {     
+      printf("%s\n", line);
+      free(line);
+   }
+   free(line);
+   line = NULL;
+   close(fd2);
+
+   return (EXIT_SUCCESS);
 }
 
 // while ((ret = get_next_line(fd,line) == 1))

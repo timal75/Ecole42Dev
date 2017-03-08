@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/28 19:36:42 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/01/28 14:16:26 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ int					ft_lstvaluefounds(t_lists *lst, char *s);
 t_listi				*ft_lstdelni(t_listi *lst, int n);
 t_lists				*ft_lstdelns(t_lists *lst, int n);
 t_listi				*ft_lstaddni(t_listi *lst, int data, int n);
+void				ft_lstdelmaillon(t_list **begin_list, t_list *lst);
 # define NEG(x) (((x) < 0) ? 1 : 0)
 # define ABS(x) (((x) < 0) ? -(x) : x)
 
