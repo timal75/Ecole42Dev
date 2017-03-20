@@ -1,0 +1,2 @@
+ipconfig getifaddr en0
+ifconfig | grep -A 1 en0 | tail -1 | cut -d ' ' -f 2

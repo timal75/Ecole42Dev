@@ -17,15 +17,6 @@
 #include <vector>
 #include <iostream>
 
-#define TRACE
-
-#ifdef TRACE
-#define TRACER(X) { if(_verbose) X; }
-//# define TRACER(X) X
-#else
-# define TRACER(X) 
-#endif
-
 typedef enum eOperandType {
 	PRECISION_INT8, PRECISION_INT16, PRECISION_INT32,
 	PRECISION_FLOAT, PRECISION_DOUBLE
@@ -40,21 +31,23 @@ public:
 	virtual IOperand const		* operator*( IOperand const & rhs ) const = 0; // Product
 	virtual IOperand const 		* operator/( IOperand const & rhs ) const = 0; // Quotient
 	virtual IOperand const 		* operator%( IOperand const & rhs ) const = 0; // Modulo
+	//virtual IOperand const 		* getmax( IOperand const &op1, IOperand const &op2) const = 0; // Modulo
 	virtual std::string const 	& toString( void ) const = 0; // String representation of the instance
-	virtual std::string 		description( void ) const = 0;
 
 	virtual ~IOperand( void ) {}
 
 
 	virtual bool 				operator==( IOperand const & rhs ) const = 0; // equality
 	virtual bool 				operator!=( IOperand const & rhs ) const = 0; // inequality
-//	virtual IOperand const 		* squareroot( IOperand const & rhs ) const = 0; // Modulo
-
+	virtual bool 				operator>( IOperand const & rhs ) const = 0; // greater than
+	virtual bool 				operator>=( IOperand const & rhs ) const = 0; // greater than or equal
+	virtual bool 				operator<( IOperand const & rhs ) const = 0; // less than
+	virtual bool 				operator<=( IOperand const & rhs ) const = 0; // less than or equal
 
 	//add by our
-	virtual long double     toLongDouble( void ) const = 0;
-	//virtual std::string     dump( void ) const = 0;
-
+//	virtual IOperand const 		* squareroot( IOperand const & rhs ) const = 0; // Modulo
+//	virtual std::string 		description( void ) const = 0;
+//	virtual long double     	toLongDouble( void ) const = 0;
 
 /*	class OverflowException : public std::exception
 	{

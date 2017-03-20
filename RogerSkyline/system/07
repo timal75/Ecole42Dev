@@ -1,0 +1,1 @@
+ps -ef |grep -i sshd |grep -v grep |awk '{print $2}'

@@ -1,5 +1,7 @@
 NAME=avm
 
+SHELL=/bin/sh
+
 OS:=$(shell uname)
 ifeq ($(OS), Linux)
   LIBBOOST:=$(HOME)/Documents/programmation/c++/boost_1_63_0
@@ -11,10 +13,11 @@ DIRSRC=src
 DIRHEADS=src
 DIROBJ=obj
 
-FILESSRC=Int8.cpp Int16.cpp Int32.cpp Float.cpp Double.cpp \
-	Program.class.cpp main.cpp OperandFactory.class.cpp \
+#FILESSRC= Int8.cpp Int16.cpp Int32.cpp Float.cpp Double.cpp 
+FILESSRC = Program.class.cpp main.cpp OperandFactory.class.cpp \
 	Stack.class.cpp Lexer.cpp AVM.cpp AVMException.cpp
-FILESHEADS=Int8.hpp Int16.hpp Int32.hpp Float.hpp Double.hpp \
+#FILESHEADS=Int8.hpp Int16.hpp Int32.hpp Float.hpp Double.hpp
+FILESHEADS= Operand.template.hpp \
 	IOperand.class.hpp Program.class.hpp Stack.class.hpp \
 	OperandFactory.class.hpp Lexer.hpp AVM.hpp AVMException.hpp
 
@@ -23,37 +26,77 @@ OBJS=$(addprefix $(DIROBJ)/, $(FILESSRC:.cpp=.o))
 SRC=$(addprefix $(DIRSRC)/, $(FILESSRC))
 
 CXX=g++ #clang++
-#CXXFLAGS=-ggdb -O0 -Wconversion -Wall -Wextra -Werror -std=gnu++11 -isystem$(LIBBOOST)
-CXXFLAGS=-ggdb -O0 -Wall -Wextra -Werror -std=gnu++11 -isystem$(LIBBOOST)
+CXXFLAGS=-ggdb -O0 -Wconversion -Wall -Wextra -Werror -std=gnu++11 # -isystem$(LIBBOOST)
+#CXXFLAGS=-ggdb -O0 -Wall -Wextra -Werror -std=gnu++11 -isystem$(LIBBOOST)
 #CXXFLAGS=-Wall -Wextra -Werror -std=gnu++11 -isystem$(LIBBOOST)
+#CXXFLAGS=-Wall -Wextra -Werror -std=gnu++11
 
 TITLE="====  $@ : $? =================" 
 
-all:
-	@make auto.mak
-	@make $(NAME)
+all: $(NAME)
 
 auto.mak:Makefile $(SRC) $(HEADERS)
 	@echo $(TITLE)
 	@#$(CXX) $(CXXFLAGS) -MM $(SRC) > auto.mak
-	echo -n "" > auto.tmp
-	for s in $(SRC); do echo -n '$$(DIROBJ)/' >> auto.tmp \
+	printf "" > auto.tmp
+	for s in $(SRC); do printf '$$(DIROBJ)/' >> auto.tmp \
 	&& $(CXX) $(CXXFLAGS) -MM $$s  >> auto.tmp 	\
 	&& echo '	@echo $$(TITLE)'  >> auto.tmp \
 	&& echo '	@mkdir -p $$(DIROBJ)'  >> auto.tmp \
 	&& echo '	$$(CXX) $$(CXXFLAGS) -o $$@ -c $$<'  >> auto.tmp \
 	; done
 	mv auto.tmp auto.mak
-include auto.mak
+#include auto.mak
 
 #$(DIROBJ)/%.o:$(DIRSRC)/%.cpp
 #	@echo $(TITLE)
 #	@mkdir -p $(DIROBJ)
 #	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
+$(DIROBJ)/Lexer.o: src/Lexer.cpp src/Lexer.hpp src/Program.class.hpp \
+  src/IOperand.class.hpp src/AVMException.hpp src/Stack.class.hpp \
+  src/AVM.hpp src/OperandFactory.class.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -isystem$(LIBBOOST) -o $@ -c $<
+
+$(DIROBJ)/Program.class.o: src/Program.class.cpp src/Program.class.hpp \
+  src/IOperand.class.hpp src/AVMException.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(DIROBJ)/main.o: src/main.cpp src/AVM.hpp src/AVMException.hpp \
+  src/Program.class.hpp src/IOperand.class.hpp src/Stack.class.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(DIROBJ)/OperandFactory.class.o: src/OperandFactory.class.cpp \
+  src/OperandFactory.class.hpp src/IOperand.class.hpp \
+  src/Operand.template.hpp src/AVMException.hpp src/AVM.hpp \
+  src/Program.class.hpp src/Stack.class.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(DIROBJ)/Stack.class.o: src/Stack.class.cpp src/Stack.class.hpp \
+  src/IOperand.class.hpp src/AVMException.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(DIROBJ)/AVM.o: src/AVM.cpp src/AVM.hpp src/AVMException.hpp src/Program.class.hpp \
+  src/IOperand.class.hpp src/Stack.class.hpp \
+  src/OperandFactory.class.hpp src/Lexer.hpp src/Operand.template.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+$(DIROBJ)/AVMException.o: src/AVMException.cpp src/AVMException.hpp
+	@echo $(TITLE)
+	@mkdir -p $(DIROBJ)
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
 $(NAME):$(OBJS)
 	@echo $(TITLE)
 	$(CXX) $(CXXFLAGS) -o $@ $(OBJS)
+
 	
 clean:
 	rm -f $(OBJS)
@@ -67,6 +110,10 @@ re:
 	@make $(NAME)
 
 test: $(NAME)
+	@echo $(TITLE)
+	( ./$(NAME) -f tests/exemple.avm && echo "OK" ) || echo "KO"
+
+test_all: $(NAME)
 	@echo $(TITLE)
 	for t in tests/*.avm ; do ( ./$(NAME) -f $$t && echo "OK" ) || echo "KO" ; done
 

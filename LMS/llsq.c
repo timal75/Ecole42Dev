@@ -5,60 +5,20 @@
 
 # include "llsq.h"
 
-/******************************************************************************/
 
 void llsq ( int n, double x[], double y[], double *a, double *b )
-
-/******************************************************************************/
-/*
-  Purpose:
-
-    LLSQ solves a linear least squares problem matching a line to data.
-
-  Discussion:
-
-    A formula for a line of the form Y = A * X + B is sought, which
-    will minimize the root-mean-square error to N data points ( X[I], Y[I] );
-
-  Licensing:
-
-    This code is distributed under the GNU LGPL license. 
-
-  Modified:
-
-    07 March 2012
-
-  Author:
-
-    John Burkardt
-
-  Parameters:
-
-    Input, int N, the number of data values.
-
-    Input, double X[N], Y[N], the coordinates of the data points.
-
-    Output, double *A, *B, the slope and Y-intercept of the least-squares
-    approximant to the data.
-*/
 {
   double bot;
   int i;
   double top;
   double xbar;
   double ybar;
-/*
-  Special case.
-*/
   if ( n == 1 )
   {
     *a = 0.0;
     *b = y[0];
     return;
   }
-/*
-  Average X and Y.
-*/
   xbar = 0.0;
   ybar = 0.0;
   for ( i = 0; i < n; i++ )
@@ -84,36 +44,8 @@ void llsq ( int n, double x[], double y[], double *a, double *b )
 
   return;
 }
-/******************************************************************************/
 
 void timestamp ( void )
-
-/******************************************************************************/
-/*
-  Purpose:
-
-    TIMESTAMP prints the current YMDHMS date as a time stamp.
-
-  Example:
-
-    31 May 2001 09:45:54 AM
-
-  Licensing:
-
-    This code is distributed under the GNU LGPL license. 
-
-  Modified:
-
-    24 September 2003
-
-  Author:
-
-    John Burkardt
-
-  Parameters:
-
-    None
-*/
 {
 # define TIME_SIZE 40
 

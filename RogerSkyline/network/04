@@ -1,0 +1,2 @@
+route get default | grep gateway | cut -d':' -f2
+netstat -rn | grep "default" | awk '{print $2}'

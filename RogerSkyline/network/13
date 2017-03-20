@@ -1,0 +1,3 @@
+ipconfig getoption en0 server_identifier
+ipconfig getpacket en0 | grep server_identifier
+#DHCP server

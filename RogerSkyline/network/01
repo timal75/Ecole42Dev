@@ -1,0 +1,2 @@
+ifconfig -l
+ifconfig -a |grep "flags=" | grep -v member | cut -d':' -f1

@@ -1,0 +1,63 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+[Previously saved workspace restored]
+
+> #!/usr/bin/Rscript
+> X11()
+> #library(ggplot2)
+> data <- read.table("~/Exercises/LMS/data.test", col.names=c('x','y') ,sep=",", quote="\"")
+> # Creating a Graph
+> attach(data)
+> plot(x, y, type = 'o' ,col = 'blue', xlab="XValue", ylab="Yvalue") 
+> calcul <- read.table("~/Exercises/LMS/Rcalculate.calc", col.names=c('a','b') ,sep=";", quote="\"")
+> #calcul <- read.table("~/Exercises/LMS/Rcalculate.calc", col.names=c('a', 'b' ) ,sep=";", quote="\"")
+> attach(calcul)
+> j = x
+> i = a *j + b
+> lines (j, i, col='red')
+> #abline(lm(y~x), col = 'red')
+> summary(lm(y~x))
+
+Call:
+lm(formula = y ~ x)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-0.88171 -0.64484 -0.06993  0.34095  1.39385 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  -39.062      2.938  -13.29 6.05e-09 ***
+x             61.272      1.776   34.50 3.60e-14 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.7591 on 13 degrees of freedom
+Multiple R-squared:  0.9892,	Adjusted R-squared:  0.9884 
+F-statistic:  1190 on 1 and 13 DF,  p-value: 3.604e-14
+
+> title("Regression of y on x")
+> message("Press Return To Continue")
+Press Return To Continue
+> invisible(readLines("stdin", n=1))
+> 
+> proc.time()
+   user  system elapsed 
+  0.240   0.035   9.657 

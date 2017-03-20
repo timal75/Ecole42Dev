@@ -10,32 +10,8 @@ using namespace std;
 int main ( );
 void test01 ( );
 
-//****************************************************************************80
-
 int main ( )
 
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    MAIN is the main program for LLSQ_PRB.
-//
-//  Discussion:
-//
-//    LLSQ_PRB tests the LLSQ library.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    17 July 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
 {
   timestamp ( );
   cout << "\n";
@@ -44,9 +20,6 @@ int main ( )
   cout << "  Test the LLSQ library.\n";
 
   test01 ( );
-//
-//  Terminate.
-//
   cout << "\n";
   cout << "LLSQ_PRB\n";
   cout << "  Normal end of execution.\n";
@@ -55,28 +28,7 @@ int main ( )
 
   return 0;
 }
-//****************************************************************************80
-
 void test01 ( )
-
-//****************************************************************************80
-//
-//  Purpose:
-//
-//    TEST01 calls LLSQ to match 15 data values.
-//
-//  Licensing:
-//
-//    This code is distributed under the GNU LGPL license. 
-//
-//  Modified:
-//
-//    17 July 2011
-//
-//  Author:
-//
-//    John Burkardt
-//
 {
   double a;
   double b;

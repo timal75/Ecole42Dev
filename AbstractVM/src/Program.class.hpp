@@ -15,6 +15,7 @@
 
 #include "IOperand.class.hpp"
 #include "AVMException.hpp"
+#include "Stack.class.hpp"
 #include <string>
 #include <iostream>
 #include <stack>
@@ -30,27 +31,27 @@ typedef struct s_command
 
 class Program
 {
-	private:
+private:
 
-		std::vector<t_command>  _tab;
-		bool					_verbose;
-		Program(Program const &);
-		Program &operator=(Program const &stack);
+	std::vector<t_command>  _tab;
+	bool					_verbose;
+	Program(Program const &);
+	Program &operator=(Program const &);
 
-	public :
-		Program();
-		~Program();
-		
-		bool 		isEmpty(void) const;
-		size_t  	getSize(void) const;
-		void 		print (void) const;
-		bool 		verify (void) const;
-		//bool		run(Stack const &stack); must be here
+public :
+	Program();
+	~Program();
+	
+	bool 		isEmpty(void) const;
+	size_t  	getSize(void) const;
+	void 		print (void) const;
+	bool 		verify (void) const;
+	//bool		run(Stack const &stack); must be here
+	bool		run(bool verbose, Stack &stack);
 
-		void 		setVerbose(bool verbose);
-		void 		push (t_command iop);
-		t_command &	last(void);
-		t_command &	at(size_t i);
+	void 		push (t_command iop);
+	t_command &	last(void);
+	t_command &	at(size_t i);
 
 
 	class SizeEmptyException : public AVMException

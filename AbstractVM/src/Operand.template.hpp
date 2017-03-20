@@ -14,69 +14,172 @@
 # define OPERAND_TEMPLATE_HPP
 
 #include "IOperand.class.hpp"
-#include <iostream>
-#include <float.h>
-#include <sstream>
-#include <sstream>
 #include "OperandFactory.class.hpp"
+#include "AVMException.hpp"
+#include <iostream>
+#include <sstream>
+#include <float.h>
+#include <cmath>
+#include "AVM.hpp"
 
-template <class CN, typename T, eOperandType P, long double VALMIN, long double VALMAX>
 
-class CN : public IOperand
+
+static constexpr const long double VALMIN[5] = { SCHAR_MIN, SHRT_MIN, LONG_MIN, -FLT_MAX, -DBL_MAX};
+static constexpr const long double VALMAX[5] = { SCHAR_MAX, SHRT_MAX, LONG_MAX, FLT_MAX, DBL_MAX};
+static const int PRECISION[5] = { 8, 16, 32, 32, 64 };
+static const std::string TYPENAME[5] = { "Int8", "Int16", "Int32", "Float", "Double" };
+
+
+
+template <typename baseType, eOperandType opType>
+class Operand : public IOperand
 {
 private:
-	static const	eOperandType _type = P;
-	T				_v;
+	static const	eOperandType _type = opType;
+	baseType		_v;
 	std::string 	_str;
 
 public:
-	static constexpr long double MAX = VALMIN;
-	static constexpr long double MIN = VALMAX;
 
-	CN() : _v(0), _str("") {}
-	CN(T v) : _v(v) { _str = std::to_string(d); }
-	CN(long double v) {
-		if (v < MIN)
-			throw(CN::UnderflowException());
-		else if (v > MAX)
-			throw(CN::OverflowException());
-		_vD = static_cast<T>(ld);
-		_str = std::to_string(ld);
+	Operand() : _v(0), _str("") {}
+	Operand(baseType v) : _v(v) { _str = std::to_string(v); }
+	Operand(long double v) {
+		//if(AVM::verbose()) {	std::cout << "appel du constructeur " << TYPENAME[opType] << "(long double " << v << ")" <<std::endl ;}
+		if (v < VALMIN[opType])
+			throw(UnderflowException());
+		else if (v > VALMAX[opType])
+			throw(OverflowException());
+		_v = static_cast<baseType>(v);
+		_str = std::to_string(v);
 	}
 
-	CN::CN(std::string const & s) : _str(s)
+	Operand(std::string const & s) : _str(s)
 	{
-		//TRACER(	std::cout << "appel du constructeur CN(std::string const & " << s << ")" <<std::endl );
+		//if(AVM::verbose()) {	std::cout << "appel du constructeur " << TYPENAME[opType] << "(std::string const & " << s << ")" <<std::endl ;}
 		long double v = std::stold(s.c_str());
-		//TRACER( std::cout << "_vD = std::stold(s.c_str()) = \"" << v << "\"" << std::endl);
-		if (v < MIN)
-			throw(CN::UnderflowException());
-		else if (v > MAX)
-			throw(CN::OverflowException());
+		if(AVM::verbose()) { std::cout << "_v = std::stold(s.c_str()) = \"" << v << "\"" << std::endl;}
+		if (v < VALMIN[opType]){
+			//if(AVM::verbose()) { std::cout << "  => UnderflowException ! " << v << " <  " << VALMIN[opType] << std::endl;}
+			throw(UnderflowException());
+		}else if (v > VALMAX[opType]){
+			//if(AVM::verbose()) { std::cout << "  => OverflowException ! " << v << " >  " << VALMIN[opType] << std::endl;}
+			throw(OverflowException());
+		}
 
-		_vD = static_cast<double>(v);
-		//TRACER( std::cout << " constructeur CN(" << v << "): _vD=" << _vD << ", _str = " << _str << std::endl);
+		_v = static_cast<baseType>(v);
+		//if(AVM::verbose()) { std::cout << " constructeur " << TYPENAME[opType] << "(" << v << "): _v=" << _v << ", _str = " << _str << std::endl;}
 	}
-	CN(CN const &);
-	~CN();
-	CN	&operator=(CN const &);
+
+	Operand(Operand const &o) {	*this = o; }
+	
+	~Operand() {}
+	
+	Operand  &operator=(Operand const &o)
+	{
+		_v = o.toOperand();
+		_str = o.toString();
+		return (*this);
+	}
+
+	eOperandType 		getType( void ) const 		{ return _type; }  // Type of the instance
+	int getPrecision( void ) const{
+		return PRECISION[opType];
+	} // Precision of the type of the instance
 
 
-	eOperandType 		getType( void ) const 		{ return _type; }
-	int 				getPrecision( void ) const 	{ return P; }
 
-	IOperand const * 	operator+( IOperand const & rhs ) const{
-		eOperandType 		type = o.getType();
-		OperandFactory & 	factory = OperandFactory::get();
+	baseType  toBaseType( void ) const { return _v; }
+
+	long double    		toLongDouble( void ) const {
+		return static_cast<long double>(_v); 
+	};
+
+	std::string const & toString( void ) const{
+		return _str;
+	}
+
+	std::string 		description( void ) const{
+		std::stringstream ss;
+		ss << TYPENAME[opType] <<"(" << _str << ")";
+		return ss.str();
+	}
+
+	bool 				operator==( IOperand const & o ) const {
+		if (_type != o.getType())
+			return false;
+		Operand<baseType, opType> const & op = dynamic_cast<Operand<baseType, opType> const &>(o);
+		return _v == op._v;
+	}
+	bool 				operator!=( IOperand const & o) const {
+		return !(*this == o);
+	}
+
+	bool 				operator>( IOperand const & o ) const {
+		eOperandType type = o.getType();
+
+		OperandFactory & factory = OperandFactory::get();
 		if (_type == type) {
-			CN const & i = dynamic_cast<CN const &>(o);
-			long double v = toLongCN() + i.toLongCN();
-			std::stringstream ss;
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			bool result = (toLongDouble() > d.toLongDouble());
+// if(AVM::verbose() && result) { std::cout << " { ds >" << this << "  >  "  << o << "} "; }
+// if(AVM::verbose() && !result) { std::cout << " { ds > " << this << "  <=  "  << o << "} "; }		
+			return result;
+		} else if (_type < type) {
+			IOperand const * tmp = factory.createOperand(type, _str);
+			//IOperand const * res = *tmp + o;
+			bool result = (*tmp > o);
+			delete tmp;
+			return result;
+		} else {//if (_type > type) {
+			IOperand const * tmp = factory.createOperand(_type, o.toString());
+			//IOperand const * res = *this + *tmp;
+			bool result = (*this > *tmp);
+			delete tmp;
+			return result;
+		}
+	} // >
+	
+	bool 				operator<( IOperand const & o) const {
+		bool result = (!(*this > o) && (*this != o));
+// if(AVM::verbose() && result) { std::cout << " {ds <" << this << "  <  "  << o << "} "; }
+// if(AVM::verbose() && !result) { std::cout << " { ds  <" << this << "  >=  "  << o << "} "; }
+		return result;
+	}
+
+	bool 				operator>=( IOperand const & o) const {
+		bool result = ((*this > o) || (*this == o));
+// if(AVM::verbose() && result) { std::cout << " { ds >= true  " << this << "  >=  "  << o << "} "; }
+// if(AVM::verbose() && !result) { std::cout << " {ds >=  false" << this << "  <  "  << o << "} "; }
+		return result;
+	}
+
+	bool 				operator<=( IOperand const & o) const {
+		bool result = ((*this < o) || (*this == o));
+// if(AVM::verbose() && result) { std::cout << " {ds <=" << this << "  <=  "  << o << "} "; }
+// if(AVM::verbose() && !result) { std::cout << " {ds <=" << this << "  <  "  << o << "} "; }
+		return result;
+	}
+
+	// IOperand const * 	getmax( IOperand const &op1, IOperand const &op2) const {
+	// 	if (op1 > op2)
+	// 		return &op1;
+	// 	else
+	// 		return &op2;
+	// }
+
+
+	IOperand const * operator+( IOperand const & o ) const{
+		eOperandType type = o.getType();
+
+		OperandFactory & factory = OperandFactory::get();
+		if (_type == type) {
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			long double v = toLongDouble() + d.toLongDouble();
+			//long double v = toLongDouble() + o.toLongDouble();
+			std::ostringstream ss;
 			ss << v;
 			IOperand const * iop = factory.createOperand(type, ss.str());
-	#ifdef TRACER
-			std::cout << this->description() << " + " << o.description() << " = " << iop->description();
-	#endif		
+if(AVM::verbose()) { std::cout << " {" << this << " + " << o << " = " << iop << "} "; }		
 			return iop;
 		} else if (_type < type) {
 			IOperand const * tmp = factory.createOperand(type, _str);
@@ -91,318 +194,160 @@ public:
 		}
 	} // Sum
 
-	IOperand const * 	operator-( IOperand const & rhs ) const{
-			eOperandType 		type = o.getType();
-		OperandFactory & 	factory = OperandFactory::get();
-		if (_type == type) {
-			CN const & i = dynamic_cast<CN const &>(o);
-			long double v = toLongCN() - i.toLongCN();
-			std::stringstream ss;
-			ss << v;
-			IOperand const * iop = factory.createOperand(type, ss.str());
-	#ifdef TRACER
-			std::cout << this->description() << " + " << o.description() << " = " << iop->description();
-	#endif		
-			return iop;
-		} else if (_type < type) {
-			IOperand const * tmp = factory.createOperand(type, _str);
-			IOperand const * res = *tmp + o;
-			delete tmp;
-			return res;
-		} else {//if (_type > type) {
-			IOperand const * tmp = factory.createOperand(_type, o.toString());
-			IOperand const * res = *this + *tmp;
-			delete tmp;
-			return res;
-		}
+	IOperand const * operator-( IOperand const & o ) const{ // Difference
+		eOperandType type = o.getType();
 
-	} // Difference
-	IOperand const * 	operator*( IOperand const & rhs ) const{
-		eOperandType 		type = o.getType();
-		OperandFactory & 	factory = OperandFactory::get();
+		OperandFactory & factory = OperandFactory::get();
 		if (_type == type) {
-			CN const & i = dynamic_cast<CN const &>(o);
-			long double v = toLongCN() * i.toLongCN();
-			std::stringstream ss;
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			long double v = toLongDouble() - d.toLongDouble();
+			std::ostringstream ss;
 			ss << v;
 			IOperand const * iop = factory.createOperand(type, ss.str());
-	#ifdef TRACER
-			std::cout << this->description() << " + " << o.description() << " = " << iop->description();
-	#endif		
+if(AVM::verbose()) { std::cout << " {" << this << " - " << o << " = " << iop << "} "; }		
 			return iop;
 		} else if (_type < type) {
 			IOperand const * tmp = factory.createOperand(type, _str);
-			IOperand const * res = *tmp + o;
+			IOperand const * res = *tmp - o;
 			delete tmp;
 			return res;
 		} else {//if (_type > type) {
 			IOperand const * tmp = factory.createOperand(_type, o.toString());
-			IOperand const * res = *this + *tmp;
+			IOperand const * res = *this - *tmp;
 			delete tmp;
 			return res;
 		}
-	} // Product
-	IOperand const * 	operator/( IOperand const & rhs ) const{
-		eOperandType 		type = o.getType();
-		OperandFactory & 	factory = OperandFactory::get();
+	}
+
+	IOperand const * operator*( IOperand const & o ) const{
+		eOperandType type = o.getType();
+
+		OperandFactory & factory = OperandFactory::get();
 		if (_type == type) {
-			CN const & i = dynamic_cast<CN const &>(o);
-			long double v = toLongCN() / i.toLongCN();
-			std::stringstream ss;
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			long double v = toLongDouble() * d.toLongDouble();
+			std::ostringstream ss;
 			ss << v;
 			IOperand const * iop = factory.createOperand(type, ss.str());
-	#ifdef TRACER
-			std::cout << this->description() << " + " << o.description() << " = " << iop->description();
-	#endif		
+if(AVM::verbose()) { std::cout << " {" << this << " * " << o << " = " << iop << "} ";}		
 			return iop;
 		} else if (_type < type) {
 			IOperand const * tmp = factory.createOperand(type, _str);
-			IOperand const * res = *tmp + o;
+			IOperand const * res = *tmp * o;
 			delete tmp;
 			return res;
-		} else {//if (_type > type) {
+		} else {//if (_type > o.getType()) {
 			IOperand const * tmp = factory.createOperand(_type, o.toString());
-			IOperand const * res = *this + *tmp;
+			IOperand const * res = *this * *tmp;
+			delete tmp;
+			return res;
+		}
+	}
+
+	IOperand const * operator/( IOperand const & o ) const{
+		eOperandType type = o.getType();
+
+		OperandFactory & factory = OperandFactory::get();
+		if (_type == type) {
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			long double v = d.toLongDouble();
+			if (v == 0)
+				throw( DivisionByZeroException());
+			v = toLongDouble() / v;
+			std::ostringstream ss;
+			ss << v;
+			IOperand const * iop = factory.createOperand(type, ss.str());
+if(AVM::verbose()) { std::cout << " {" << this << " / " << o << " = " << iop << "} "; }		
+			return iop;
+		} else if (_type < type) {
+			IOperand const * tmp = factory.createOperand(type, _str);
+			IOperand const * res = *tmp / o;
+			delete tmp;
+			return res;
+		} else {//if (_type > o.getType()) {
+			IOperand const * tmp = factory.createOperand(_type, o.toString());
+			IOperand const * res = *this / *tmp;
 			delete tmp;
 			return res;
 		}
 	} // Quotient
-	IOperand const * 	operator%( IOperand const & rhs ) const{
-			eOperandType 		type = o.getType();
-		OperandFactory & 	factory = OperandFactory::get();
+
+	IOperand const * operator%( IOperand const & o ) const{
+		eOperandType type = o.getType();
+
+		OperandFactory & factory = OperandFactory::get();
 		if (_type == type) {
-			CN const & i = dynamic_cast<CN const &>(o);
-			long double v = toLongCN() % i.toLongCN();
-			std::stringstream ss;
+			Operand<baseType, opType> const & d = dynamic_cast<Operand<baseType, opType> const &>(o);
+			long double v = d.toLongDouble();
+			if (v == 0)
+				throw( DivisionByZeroException());
+			v = fmodl(toLongDouble(), d.toLongDouble());
+			std::ostringstream ss;
 			ss << v;
 			IOperand const * iop = factory.createOperand(type, ss.str());
-	#ifdef TRACER
-			std::cout << this->description() << " + " << o.description() << " = " << iop->description();
-	#endif		
+if(AVM::verbose()) { std::cout << " {" << this << " % " << o << " = " << iop << "} "; }		
 			return iop;
-		} else if (_type < type) {
-			IOperand const * tmp = factory.createOperand(type, _str);
-			IOperand const * res = *tmp + o;
+		} else if (_type < o.getType()) {
+			IOperand const * tmp = factory.createOperand(_type, _str);
+			IOperand const * res = *tmp % o;
 			delete tmp;
 			return res;
-		} else {//if (_type > type) {
+		} else {//if (_type > o.getType()) {
 			IOperand const * tmp = factory.createOperand(_type, o.toString());
-			IOperand const * res = *this + *tmp;
+			IOperand const * res = *this % *tmp;
 			delete tmp;
 			return res;
-		}
+		}	
 	} // Modulo
-	std::string const & toString( void ) const; // String representation of the instance
-	std::string 		description( void ) const; // String representation of the instance
 
-	long double    		toLongCN( void ) const;
 
-	class OverflowException {
+	class OverflowException : public AVMException {
 	public:
-		OverflowException();
-		OverflowException(OverflowException const &Ex);
-		~OverflowException() throw ();
-		OverflowException &operator=(OverflowException const &);
-		const char * what(void) const throw ();
+		OverflowException(){}
+		OverflowException(OverflowException const & e) : AVMException(e) {}
+		~OverflowException() throw (){}
+		OverflowException &operator=(OverflowException const &){ return *this; }
+		const char * what(void) const throw ()
+		{
+			return "Overflow : Number Too High";
+		}
 	};
 
-	class UnderflowException {
+	class UnderflowException : public AVMException {
 	public:
-		UnderflowException();
-		UnderflowException(UnderflowException const &);
-		~UnderflowException() throw ();
-		UnderflowException &operator=(UnderflowException const &);
-		const char * what(void) const throw ();
+		UnderflowException(){}
+		UnderflowException(UnderflowException const & e) : AVMException(e) {}
+		~UnderflowException() throw (){}
+		UnderflowException &operator=(UnderflowException const &){ return *this; }
+		const char * what(void) const throw ()
+		{
+			return "Underflow : Number Too Low.";
+		}
+	};
+	class DivisionByZeroException : public AVMException {
+	public:
+		DivisionByZeroException(){}
+		DivisionByZeroException(DivisionByZeroException const & e) : AVMException(e) {}
+		~DivisionByZeroException() throw (){}
+		DivisionByZeroException &operator=(DivisionByZeroException const &){ return *this; }
+		const char * what(void) const throw ()
+		{
+			return "DivsionByZeroException : Division by zero";
+		}
 	};
 };
 
-std::ostream	&operator<<(std::ostream &out, CN const *f);
-
-
-///////////////////////////////////////////////////////////////////////////////////////////
-il faut remplir au dessus du trait
-en faisant disparaitre ce qui est en dessous
-///////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-CN::CN(CN const &o)
+template <typename baseType, eOperandType opType>
+std::ostream	&operator<<(std::ostream &out, Operand<baseType, opType> const *f)
 {
-	*this = o;
+	out << TYPENAME[opType] << "(" << f->description() <<")";
+	return out;
 }
 
-CN::~CN() {}
-
-double   		  	CN::toCN( void ) const { return _vD; }
-long double    		CN::toLongCN( void ) const { return static_cast<long double>(_vD); };
-std::string const & CN::toString( void ) const{
-	return _str;
-}
-
-std::string 		CN::description( void ) const{
-	std::stringstream ss;
-	ss << "CN(" << _vD << ")";
-	return ss.str();
-}
-
-
-CN  &CN::operator=(CN const &o)
+template <typename baseType, eOperandType opType>
+std::ostream	&operator<<(std::ostream &out, Operand<baseType, opType> const &f)
 {
-	_vD = o.toCN();
-	_str = o.toString();
-	return (*this);
-}
-
-
-int CN::getPrecision( void ) const{
-	return 64;
-} // Precision of the type of the instance
-
-eOperandType CN::getType( void ) const{
-	return _type;
-} // Type of the instance
-
-
-IOperand const * CN::operator+( IOperand const & o ) const{
-	eOperandType type = o.getType();
-
-	OperandFactory & factory = OperandFactory::get();
-	if (_type == type) {
-		CN const & d = dynamic_cast<CN const &>(o);
-		long double v = toLongCN() + d.toLongCN();
-		std::ostringstream ss;
-		ss << v;
-		IOperand const * iop = factory.createOperand(type, ss.str());
-#ifdef TRACER
-		std::cout << " {" << this->description() << " + " << o.description() << " = " << iop->description() << "} ";
-#endif		
-		return iop;
-	} else if (_type < type) {
-		IOperand const * tmp = factory.createOperand(type, _str);
-		IOperand const * res = *tmp + o;
-		delete tmp;
-		return res;
-	} else {//if (_type > type) {
-		IOperand const * tmp = factory.createOperand(_type, o.toString());
-		IOperand const * res = *this + *tmp;
-		delete tmp;
-		return res;
-	}
-} // Sum
-
-IOperand const * CN::operator-( IOperand const & o ) const{ // Difference
-	eOperandType type = o.getType();
-
-	OperandFactory & factory = OperandFactory::get();
-	if (_type == type) {
-		CN const & d = dynamic_cast<CN const &>(o);
-		return ( *this - d);
-	} else if (_type < type) {
-		IOperand const * tmp = factory.createOperand(type, _str);
-		IOperand const * res = *tmp - o;
-		delete tmp;
-		return res;
-	} else {//if (_type > type) {
-		IOperand const * tmp = factory.createOperand(_type, o.toString());
-		IOperand const * res = *this - *tmp;
-		delete tmp;
-		return res;
-	}
-}
-
-IOperand const * CN::operator*( IOperand const & o ) const{
-	eOperandType type = o.getType();
-
-	OperandFactory & factory = OperandFactory::get();
-	if (_type == type) {
-		CN const & d = dynamic_cast<CN const &>(o);
-		return ( *this * d);
-	} else if (_type < type) {
-		IOperand const * tmp = factory.createOperand(type, _str);
-		IOperand const * res = *tmp * o;
-		delete tmp;
-		return res;
-	} else {//if (_type > o.getType()) {
-		IOperand const * tmp = factory.createOperand(_type, o.toString());
-		IOperand const * res = *this * *tmp;
-		delete tmp;
-		return res;
-	}
-}
-
-IOperand const * CN::operator/( IOperand const & o ) const{
-	eOperandType type = o.getType();
-
-	OperandFactory & factory = OperandFactory::get();
-	if (_type == type) {
-		CN const & d = dynamic_cast<CN const &>(o);
-		return ( *this / d);
-	} else if (_type < type) {
-		IOperand const * tmp = factory.createOperand(type, _str);
-		IOperand const * res = *tmp / o;
-		delete tmp;
-		return res;
-	} else {//if (_type > o.getType()) {
-		IOperand const * tmp = factory.createOperand(_type, o.toString());
-		IOperand const * res = *this / *tmp;
-		delete tmp;
-		return res;
-	}
-} // Quotient
-
-IOperand const * CN::operator%( IOperand const & o ) const{
-	eOperandType type = o.getType();
-
-	OperandFactory & factory = OperandFactory::get();
-	if (_type == type) {
-		CN const & d = dynamic_cast<CN const &>(o);
-		return ( *this % d);
-	} else if (_type < o.getType()) {
-		IOperand const * tmp = factory.createOperand(_type, _str);
-		IOperand const * res = *tmp % o;
-		delete tmp;
-		return res;
-	} else {//if (_type > o.getType()) {
-		IOperand const * tmp = factory.createOperand(_type, o.toString());
-		IOperand const * res = *this % *tmp;
-		delete tmp;
-		return res;
-	}	
-} // Modulo
-
-
-CN::OverflowException::OverflowException() {}
-CN::OverflowException::OverflowException(CN::OverflowException const &) {}
-CN::OverflowException::~OverflowException() throw () {}
-CN::OverflowException &CN::OverflowException::operator=(CN::OverflowException const &) { return *this; }
-const char * CN::OverflowException::what(void) const throw () 
-{
-	return "Overflow : Number Too High";
-}
-
-CN::UnderflowException::UnderflowException() {}
-CN::UnderflowException::UnderflowException(CN::UnderflowException const &) {}
-CN::UnderflowException::~UnderflowException() throw () {}
-CN::UnderflowException &CN::UnderflowException::operator=(CN::UnderflowException const &) { return *this; }
-const char * CN::UnderflowException::what(void) const throw ()
-{
-	return "Underflow : Number Too Low";
-}
-
-
-/*IOperand const * operator+(CN const & a, CN const & b)
-{
-	long double v = a.toLongCN() + b.toLongCN();
-	std::ostringstream ss;
-	ss << v;
-	OperandFactory & factory = OperandFactory::get();
-	return factory.createOperand(PRECISION_FLOAT, ss.str());
-}*/
-std::ostream	&operator<<(std::ostream &out, CN const *f)
-{
-	out << "CN(" << f->toString() <<")";
+	out << TYPENAME[opType] << "(" << f.description() <<")";
 	return out;
 }
 

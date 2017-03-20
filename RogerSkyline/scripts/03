@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ -z $1 ]
+then
+echo "./03 <repertoire>"
+elif [ ! -d $1 ]
+then
+echo "$1 n'est pas un repertoire !"
+elif [ ! -r $1 ]
+then
+echo " repertoire $1 n'est pas lisible !"
+else
+ls -lS $1
+fi

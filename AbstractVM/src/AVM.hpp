@@ -20,18 +20,6 @@
 #include  "IOperand.class.hpp"
 #include "Stack.class.hpp"
 
-//typedef Operand<char, PERCISION_INT8> 		Int8;
-//typedef Operand<short int, PERCISION_INT16> Int16;
-/*
-class Int8 : Operand<char, PERCISION_INT8> {
-public: 
-	int getTruc(void);
-};
-class Int16 : Operand<short int, PERCISION_INT16> { };
-class Int32 : Operand<long int, PERCISION_INT32> { };
-class Float : Operand<float, PERCISION_FLOAT> { };
-class Double : Operand<double, PERCISION_DOUBLE> { };
-*/
 class AVM
 {
 private:
@@ -50,7 +38,7 @@ private:
 
 public:
 	bool			_verbose;	
-	static const std::string  TYPENAME[];// = { "Int8", "Int16", "Int32", "Float", "Double" };
+	//static const std::string  TYPENAME[];// = { "Int8", "Int16", "Int32", "Float", "Double" };
 
 	static AVM &get(void);
 	static bool	verbose(void);

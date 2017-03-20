@@ -11,8 +11,15 @@
 /* ************************************************************************** */
 
 #include "OperandFactory.class.hpp"
+#include "Operand.template.hpp"
 #include <iostream>
 
+
+typedef Operand<char, PRECISION_INT8>  Int8;
+typedef Operand<short int, PRECISION_INT16> Int16;
+typedef Operand<long int, PRECISION_INT32> Int32;
+typedef Operand<float, PRECISION_FLOAT> Float;
+typedef Operand<double, PRECISION_DOUBLE> Double;
 
 
 OperandFactory::OperandFactory() {
@@ -26,10 +33,6 @@ OperandFactory::OperandFactory() {
 OperandFactory::OperandFactory(OperandFactory const &) {}
 OperandFactory  &OperandFactory::operator=(OperandFactory const &) { return (*this); }
 OperandFactory::~OperandFactory() {}
-
-
-
-
 
 IOperand const *OperandFactory::createInt8(std::string const & value) const
 {
@@ -68,15 +71,15 @@ IOperand const * OperandFactory::createOperand(
 	return ((*this).*createFuncs[type])(value);
 }
 
-std::ostream	&operator<<(std::ostream &out, IOperand const &f)
+std::ostream	&operator<<(std::ostream &out, IOperand const &iop)
 {
-	out << f.description();
+	out << TYPENAME[iop.getType()] << "(" << iop.toString() <<")";
 	return out;
 }
 
-std::ostream	&operator<<(std::ostream &out, IOperand const *f)
+std::ostream	&operator<<(std::ostream &out, IOperand const *iop)
 {
-	out << f->description();
+	out << TYPENAME[iop->getType()] << "(" << iop->toString() <<")";
 	return out;
 }
 

@@ -14,12 +14,8 @@
 # define OPERANDFACTORY_CLASS_HPP
 
 #include "IOperand.class.hpp"
-//#include "Operand.class.hpp"
-#include "Int8.hpp"
-#include "Int16.hpp"
-#include "Int32.hpp"
-#include "Float.hpp"
-#include "Double.hpp"
+//#include "Operand.template.hpp"
+
 
 class OperandFactory   
 {
@@ -42,7 +38,7 @@ private :
 public:
     ~OperandFactory();
 
-    static OperandFactory &get()
+    static OperandFactory &get(void)
     {
         static OperandFactory instance;
         return instance;

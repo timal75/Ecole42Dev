@@ -1,0 +1,1 @@
+ kill $(ps -ef |grep "tail -f /var/log/syslog" |grep -v grep| awk '{print $2}')

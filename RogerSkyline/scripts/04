@@ -1,0 +1,10 @@
+#!/bin/bash
+
+fic=""
+fichiercron=/etc/crontab
+fichiercron=/home/toto/rogerskyline/04
+fic=`find $fichiercron -mtime -1`
+if [ ! -z $fic ]
+then
+echo "Cron tab modified" | mail -s "Contab modified" root
+fi

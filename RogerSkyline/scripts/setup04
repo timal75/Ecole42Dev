@@ -1,0 +1,2 @@
+#!/bin/bash
+(crontab -l; echo "0 0 * * * /home/toto/rogerskyline/04") | crontab -

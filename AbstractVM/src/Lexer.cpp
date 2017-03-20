@@ -24,8 +24,6 @@
 
 #define _verbose Lexer::_isVerbose
 
-const std::string  Lexer::TYPENAME[] = { "Int8", "Int16", "Int32", "Float", "Double" };
-
 Lexer::Lexer() {}
 Lexer::Lexer(Lexer const&) {}
 Lexer &Lexer::operator=(Lexer const &){ return *this;}
@@ -47,9 +45,8 @@ void makeop(std::string operation)
 	
 	com.commande = operation;
 	program.push(com);
-TRACER(	std::cout << "Operation : "<< operation << std::endl);
+if(AVM::verbose()) {	std::cout << "Operation : "<< operation << std::endl; }
 }
-
 void opint8(int operation, int value)
 {
 	t_command	com;
@@ -58,12 +55,12 @@ void opint8(int operation, int value)
 	if (operation == 1)
 	{
 		com.commande = "push";
-TRACER( std::cout << "push int8("<< value << ")" << std::endl );		
+if(AVM::verbose()) { std::cout << "push int8("<< value << ")" << std::endl ;}
 	}
 	else
 	{
 		com.commande = "assert";
-TRACER( std::cout << "assert int8("<< value << ")"<< std::endl );		
+if(AVM::verbose()) { std::cout << "assert int8("<< value << ")"<< std::endl ;}
 	}
 	com.operand = value;
 	com.precision = PRECISION_INT8;
@@ -81,12 +78,12 @@ void opint16(int operation, int value)
 	if (operation == 1)
 	{
 		com.commande = "push";
-TRACER( std::cout << "push int16("<< value << ")"<< std::endl );
+if(AVM::verbose()) { std::cout << "push int16("<< value << ")"<< std::endl ;}
 	}
 	else
 	{
 		com.commande = "assert";
-TRACER( std::cout << "assert int16("<< value << ")"<< std::endl );
+if(AVM::verbose()) { std::cout << "assert int16("<< value << ")"<< std::endl ;}
 	}
 	com.operand = value;
 	com.precision = PRECISION_INT16;
@@ -104,12 +101,12 @@ void opint32(int operation, int value)
 	if (operation == 1)
 	{
 		com.commande = "push";
-TRACER( std::cout << "push int32("<< value << ")"<< std::endl );
+if(AVM::verbose()) { std::cout << "push int32("<< value << ")"<< std::endl ;}
 	}
 	else
 	{
 		com.commande = "assert";
-TRACER( std::cout << "assert int32("<< value << ")"<< std::endl );
+if(AVM::verbose()) { std::cout << "assert int32("<< value << ")"<< std::endl ;}
 	}
 	com.operand = value;
 	com.precision = PRECISION_INT32;
@@ -119,7 +116,7 @@ TRACER( std::cout << "assert int32("<< value << ")"<< std::endl );
 	program.push(com);
 }
 
-void opfloat(int operation, float value)
+void opfloat(int operation, double value)
 {
 	t_command	com;
 	Program& program = AVM::prg();
@@ -127,12 +124,12 @@ void opfloat(int operation, float value)
 	if (operation == 1)
 	{
 		com.commande = "push";
-TRACER( std::cout << "push float("<< value << ")"<< std::endl );
+if(AVM::verbose()) { std::cout << "push float("<< value << ")"<< std::endl ;}
 	}
 	else
 	{
 		com.commande = "assert";
-TRACER(	std::cout << "assert float("<< value << ")"<< std::endl; );
+if(AVM::verbose()) {	std::cout << "assert float("<< value << ")"<< std::endl; ;}
 	}
 	std::ostringstream strs;
 	strs	 << value;
@@ -152,12 +149,12 @@ void opdouble(int operation, double value)
 	if (operation == 1)
 	{
 		com.commande = "push";
-TRACER(	std::cout << "push double("<< value << ")"<< std::endl);
+if(AVM::verbose()) {	std::cout << "push double("<< value << ")"<< std::endl;}
 	}
 	else
 	{
 		com.commande = "assert";
-TRACER(	std::cout << "assert double("<< value << ")"<< std::endl);
+if(AVM::verbose()) {	std::cout << "assert double("<< value << ")"<< std::endl;}
 	}
 	com.operand = value;
 
@@ -241,6 +238,8 @@ struct my_grammar : boost::spirit::qi::grammar<Iterator, Skipper>
 				| boost::spirit::lit("print") [makeop_(std::string("print"))] 
 				| boost::spirit::lit("pop") [makeop_(std::string("pop"))] 
 				| boost::spirit::lit("dump") [makeop_(std::string("dump"))] 
+				| boost::spirit::lit("max")[makeop_(std::string("max"))]
+				| boost::spirit::lit("min")[makeop_(std::string("min"))]
 				| boost::spirit::lit("exit")[makeop_(std::string("exit"))] 
 			 ) 
 			>> *(comment);
@@ -260,48 +259,52 @@ bool	Lexer::analyse(std::istream &ifs, bool verbose, bool terminal, Program	&pro
 	bool		noerror = true;	
 
 	_verbose = verbose;
-	program.setVerbose(verbose);
-TRACER(	std::cout << "Début parse : " << std::endl); 
+	//program.setVerbose(verbose);
+if(AVM::verbose()) {	std::cout << "Début parse : " << std::endl;}
 	
 	while (ifs.good() && !finished)	{
-		getline(ifs, s);
-		if ((s.compare(";;")==0) && (!terminal))
-			//if ((s.compare(";;")==0) || (s.compare("exit")==0))
-			break;
-		else if(!s.empty()) {
+		bool repeat = true;
+		while (repeat)
+		{
+			repeat = false;
+			getline(ifs, s);
+			if(!s.empty()) {
 
-			if ((s.compare(";;")==0) && (terminal))
-			{
-				s = "exit";
-				finished = true;
-			}
+				if ((s.compare(";;")==0) && (terminal))
+				{
+					s = "exit";
+					finished = true;
+				}
 
-			auto iter = s.begin();
-			auto end = s.end();
+				auto iter = s.begin();
+				auto end = s.end();
 
-			my_grammar<std::string::iterator, 
-				boost::spirit::ascii::space_type> g;
+				my_grammar<std::string::iterator, 
+					boost::spirit::ascii::space_type> g;
 
-			bool r = boost::spirit::qi::phrase_parse(
+				bool r = boost::spirit::qi::phrase_parse(
 					iter, end, g, boost::spirit::ascii::space);
-
-			if (r)
-			{
-				//std::cout << "-------------------------\n";
-				//std::cout << "Parsing succeeded\n";
-				//std::cout << "-------------------------\n";
+				if (!r)
+				{
+					std::string rest(iter, s.end());
+					error = "-------------------------\n" ; 
+					error = error +	"Parsing failed\n";
+					error = error +	"stopped at: \": " + rest + "\"\n";
+					error = error +	"-------------------------\n";
+					if (terminal)
+					{
+						std::cout << error;
+						repeat = true;
+						std::cout << "\nEnter again \n";
+					}
+					else
+					{
+						_Error.push_back(error);
+						noerror = false;
+					}
+				}
 			}
-			else
-			{
-				std::string rest(iter, s.end());
-				error = "-------------------------\n" ; 
-				error = error +	"Parsing failed\n";
-				error = error +	"stopped at: \": " + rest + "\"\n";
-				error = error +	"-------------------------\n";
-				_Error.push_back(error);
-				noerror = false;
-			}
-		}
+		}	
 	}
 	/*	if ((s.compare(";;")!=0) && (s.compare("exit")!=0))
 		{
@@ -309,13 +312,13 @@ TRACER(	std::cout << "Début parse : " << std::endl);
 		std::cout << "Parsing failed No Termination statement\n";
 		std::cout << "-------------------------\n";
 		}*/
-TRACER(	std::cout << "Taille stack commande : " 
+if(AVM::verbose()) {	std::cout << "Taille stack commande : " 
 		<< program.getSize()
-		<< std::endl);
-TRACER(	std::cout << "Top stack commande : "
+		<< std::endl;}
+if(AVM::verbose()) {	std::cout << "Top stack commande : "
 		<< program.last().commande
-		<< std::endl);
-	program.setVerbose(verbose);
+		<< std::endl;}
+	//program.setVerbose(verbose);
 	if (noerror)
 		return program.verify();
 	else

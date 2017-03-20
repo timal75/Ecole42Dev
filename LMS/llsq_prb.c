@@ -7,32 +7,7 @@
 int main ( );
 void test01 ( );
 
-/******************************************************************************/
-
 int main ( )
-
-/******************************************************************************/
-/*
-  Purpose:
-
-    MAIN is the main program for LLSQ_PRB.
-
-  Discussion:
-
-    LLSQ_PRB tests the LLSQ library.
-
-  Licensing:
-
-    This code is distributed under the GNU LGPL license. 
-
-  Modified:
-
-    07 March 2012
-
-  Author:
-
-    John Burkardt
-*/
 {
   timestamp ( );
   printf ( "\n" );
@@ -41,9 +16,6 @@ int main ( )
   printf ( "  Test the LLSQ library.\n" );
 
   test01 ( );
-/*
-  Terminate.
-*/
   printf ( "\n" );
   printf ( "LLSQ_PRB\n" );
   printf ( "  Normal end of execution.\n" );
@@ -52,28 +24,7 @@ int main ( )
 
   return 0;
 }
-/******************************************************************************/
-
 void test01 ( )
-
-/******************************************************************************/
-/*
-  Purpose:
-
-    TEST01 calls LLSQ to match 15 data values.
-
-  Licensing:
-
-    This code is distributed under the GNU LGPL license. 
-
-  Modified:
-
-    07 March 2012
-
-  Author:
-
-    John Burkardt
-*/
 {
   double a;
   double b;

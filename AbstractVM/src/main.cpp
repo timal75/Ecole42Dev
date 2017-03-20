@@ -12,6 +12,9 @@
 
 #include "AVM.hpp"
 
+#define TRACER(X) { if(verbose) X; }
+
+
 #define _verbose avm._verbose
 
 void	print_help (void)
@@ -116,7 +119,7 @@ int main(int argc, char **argv)
 		std::cout << "AVMException/" 
 			<< e.what() << std::endl;
 	}catch(std::exception const & e){
-		std::cout << "fatal unknow exception intercepted : " << e.what() << std::endl;
+		std::cout << "fatal exception intercepted : " << e.what() << std::endl;
 	}
 
 	return (0);

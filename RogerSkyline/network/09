@@ -1,0 +1,3 @@
+nslookup 42.fr
+nslookup 42.fr -server 8.8.8.8
+#Il y en a 2 de plus avec serveur par defaut
