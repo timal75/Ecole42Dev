@@ -34,5 +34,5 @@ RUN mkdir -p ${GOPATH}/src/github.com/gogits &&\
 EXPOSE 3000
 EXPOSE 22
 
-#USER git
-CMD ["/bin/sh", "-c", "su git", "/home/git/go/src/github.com/gogits/gogs/gogs web"]
+USER git
+CMD ["/bin/bash", "-c", "/home/git/startup"]
