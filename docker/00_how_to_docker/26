@@ -1,0 +1,2 @@
+eval "$(docker-machine env char)"
+docker service create --name engineering-bay --replicas 2 --network overmind  -e OC_USERNAME=rabbit42 -e OC_PASSWD=42rabbit 42school/engineering-bay

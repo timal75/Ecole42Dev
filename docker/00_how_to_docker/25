@@ -1,0 +1,2 @@
+eval "$(docker-machine env char)"
+docker service ls

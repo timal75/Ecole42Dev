@@ -1,0 +1,9 @@
+docker ps -a | awk '{print $1}' | grep -v "CONT" | xargs -I {} docker stop {} | xargs -I {} docker rm {}
+rm -rf app bin config db lib log public test tmp vendor
+rm -rf README.md Rakefile config.ru Gemfile.lock
+cat > Gemfile << EOF
+source 'https://rubygems.org'
+gem 'rails', '5.0.0.1'
+EOF
+touch Gemfile.lock
+docker image ls  | awk '{print $1}' | grep -v "REP" |xargs -I {} docker image rmi {}

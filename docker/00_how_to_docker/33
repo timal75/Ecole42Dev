@@ -1,0 +1,1 @@
+docker images -a | awk '{print $3}' | grep -v "CONT" | xargs -I {} docker rmi -f {}
