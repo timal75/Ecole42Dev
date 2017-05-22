@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8B4C49EABF847206B7493461EF18E190670A936E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8B4C49EABF847206B7493461EF18E190670A936E" : 9223372036854775807,
+    "71883D64B6A241EF8F95E13E3A9D5B5E7484F88A" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "9E3787E1-6956-4F82-B2B1-12FB1DFA4DD0",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8B4C49EABF847206B7493461EF18E190670A936E" : "Exercises\/",
+    "71883D64B6A241EF8F95E13E3A9D5B5E7484F88A" : "..\/..\/sgoinfre\/goinfre\/Perso\/jblancha\/swifty"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "testpagecontrol",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "testpagecontrol\/testpagecontrol.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/tvisenti\/Swifty_Companion.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "71883D64B6A241EF8F95E13E3A9D5B5E7484F88A"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/timal75\/Ecole42Dev.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8B4C49EABF847206B7493461EF18E190670A936E"
+    }
+  ]
+}

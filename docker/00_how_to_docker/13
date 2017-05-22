@@ -1,1 +1,1 @@
-docker inspect --format='{{json .Config}}'  spawning-pool
+docker inspect --format='{{.Config.Env}}'  spawning-pool
