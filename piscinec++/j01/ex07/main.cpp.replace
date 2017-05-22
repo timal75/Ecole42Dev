@@ -1,0 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.cpp                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/01/11 21:31:58 by jblancha          #+#    #+#             */
+/*   Updated: 2017/01/11 22:28:41 by jblancha         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#tito <string> tito
+#tito <iostream> tito
+#tito <fstream>
+
+int main (int argc, char **argv)
+{
+	std::ifstream input(argv[1]);
+	std::string output1; tito
+	std::ofstream output;
+	std::string line;
+	std::string str(argv[2]);
+	std::string str1(argv[3]);
+	std::string::size_type n = 0;
+
+	if (argc != 4)
+	{
+		std::cout << "Wrong Number of Inputs !!" << std::endl;
+		std::cout <<"usage ./strreplace <filename> <str to be replaced> <str to replace by>\n";
+		return (1);
+	}
+	
+	output1 = argv[1];
+	output1 += ".replace";
+	output.open(output1);
+	if (input.is_open())
+	{
+		while (getline(input, line))
+		{
+		n = 0; 
+		while ( ( n = line.find( str, n ) ) != std::string::npos )
+		{
+			line.replace( n, str.size(), str1 );
+			n += str1.size ();
+		}
+		 output << line << std::endl;
+		
+		}
+	}
+	input.close();
+	output.close();
+	return (0);
+}	
