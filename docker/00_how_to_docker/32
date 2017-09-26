@@ -1,1 +1,2 @@
-docker ps -a | awk '{print $1}' | grep -v "CONT" | xargs -I {} docker stop {} | xargs -I {} docker rm {}
+#docker ps -a | awk '{print $1}' | grep -v "CONT" | xargs -I {} docker stop {} | xargs -I {} docker rm {}
+docker rm --force $(docker ps -a -q)

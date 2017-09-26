@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 17:59:47 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/12 14:48:25 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/09/13 18:32:38 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t n);
 char				*ft_strdup(char *src);
 char				*ft_strcpy(char *dest, char *src);
 char				*ft_strncpy(char *dest, char *src, size_t len);
-char    			*ft_strrep(char *src, char to_find, char to_replace);
+char				*ft_strrep(char *src, char to_find, char to_replace);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);

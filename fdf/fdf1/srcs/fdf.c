@@ -42,7 +42,6 @@ int		main(int argc, char **argv)
 	}
 	if ((field = ft_read_file(argv[1])) == NULL)
 	{
-		ft_freefield(field);
 		ft_putendl("error");
 		return (1);
 	}

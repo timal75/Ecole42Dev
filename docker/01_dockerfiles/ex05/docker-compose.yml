@@ -1,0 +1,36 @@
+version: '2'
+services:
+  php:
+#  phpmyadmin:
+      image: php:7-fpm
+      volumes:
+        - ./nginx/html:/html
+  mysql:
+      image: k0st/alpine-mariadb
+      ports:
+        - "3306:3306"
+      volumes:
+        - ./log:/var/log/mysql
+        - ./data:/var/lib
+      environment:
+        - MYSQL_DATABASE=Test2
+        - MYSQL_USER=toto
+        - MYSQL_PASSWORD=toto
+  nginx:
+    image: nginx:latest
+    ports:
+      - "81:80"
+    volumes:
+      - ./nginx/log:/var/log/nginx
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/html:/html
+      - ./nginx/files:/var/www/nginx
+    depends_on:
+      - php
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - mysql:db
+    ports:
+      - 8181:80

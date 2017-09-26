@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/16 20:30:25 by jblancha          #+#    #+#             */
-/*   Updated: 2017/01/06 21:20:51 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/09/13 18:55:33 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@ void	ft_matrice_scale(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			field(i, j).x = field_ori(i, j).x * env->scale;
-			field(i, j).y = field_ori(i, j).y * env->scale;
-			field(i, j).z = field_ori(i, j).z * env->scalez;
-			field(i, j).relief = field_ori(i, j).relief * env->scalez;
+			FIELD(i, j).x = FIELD_ORI(i, j).x * env->scale;
+			FIELD(i, j).y = FIELD_ORI(i, j).y * env->scale;
+			FIELD(i, j).z = FIELD_ORI(i, j).z * env->scalez;
+			FIELD(i, j).relief = FIELD_ORI(i, j).relief * env->scalez;
 			j++;
 		}
 		i++;
@@ -59,9 +59,9 @@ void	ft_matrice_trans(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			field(i, j).x = field_ori(i, j).x + env->dx;
-			field(i, j).y = field_ori(i, j).y + env->dy;
-			field(i, j).z = field_ori(i, j).z + env->dz;
+			FIELD(i, j).x = FIELD_ORI(i, j).x + env->dx;
+			FIELD(i, j).y = FIELD_ORI(i, j).y + env->dy;
+			FIELD(i, j).z = FIELD_ORI(i, j).z + env->dz;
 			j++;
 		}
 		i++;
@@ -83,14 +83,14 @@ void	ft_matrice_rotate(t_env *env)
 		j = 0;
 		while (j < (*field)->line[i].len)
 		{
-			field(i, j).x = cosy * (sinz * field(i, j).y + cosz *
-					field(i, j).x) - siny * field(i, j).z;
-			field(i, j).y = sinx * (cosy * field(i, j).z + siny *
-					(sinz * field(i, j).y + cosz * field(i, j).x)) +
-					cosx * (cosz * field(i, j).y - sinz * field(i, j).x);
-			field(i, j).z = cosx * (cosy * field(i, j).z + siny *
-					(sinz * field(i, j).y + cosz * field(i, j).x))
-				+ sinx * (cosz * field(i, j).y - sinz * field(i, j).x);
+			FIELD(i, j).x = COSY * (SINZ * FIELD(i, j).y + COSZ *
+					FIELD(i, j).x) - SINY * FIELD(i, j).z;
+			FIELD(i, j).y = SINX * (COSY * FIELD(i, j).z + SINY *
+					(SINZ * FIELD(i, j).y + COSZ * FIELD(i, j).x)) +
+					COSX * (COSZ * FIELD(i, j).y - SINZ * FIELD(i, j).x);
+			FIELD(i, j).z = COSX * (COSY * FIELD(i, j).z + SINY *
+					(SINZ * FIELD(i, j).y + COSZ * FIELD(i, j).x))
+				+ SINX * (COSZ * FIELD(i, j).y - SINZ * FIELD(i, j).x);
 			j++;
 		}
 		i++;

@@ -1,20 +1,12 @@
-FROM ruby:2.3-slim
+FROM ruby:2.3.4
 
-RUN apt-get update && apt-get install -y \
-  build-essential libpq-dev qt5-default \
-  libqt5webkit5-dev \
-  nodejs
-
+RUN apt-get update && apt-get install -y nodejs && gem install rails -v 4.2.7
 RUN mkdir -p /opt/app
-WORKDIR /opt/app
 
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
+ONBUILD WORKDIR /opt/app
 
-COPY . /opt/app
+ONBUILD COPY . /opt/app
 
-EXPOSE 3000
+ONBUILD RUN bundle install && rake db:migrate && rake db:seed
 
-ENTRYPOINT ["bundle", "exec"]
-
-CMD ["rails", "server", "-p" , "3000", "-b", "0.0.0.0"]
+ONBUILD EXPOSE 3000

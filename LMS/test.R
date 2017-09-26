@@ -2,20 +2,20 @@
 args <- commandArgs(TRUE)
 x11(width = 20, height = 12, pointsize = 12)
 # Creating a Graph
-par(mfrow=c(3,1))
+par(mfcol=c(3,1))
 data <- read.table(args[1], col.names=c('x','y') ,sep=",", quote="\"")
 attach(data)
-plot(x, y, col= 'blue', main="Regression of y on x (statistical way)" , xlab="XValue", ylab="Yvalue") 
-calcul <- read.table("~/Exercises/LMS/Rcalculate.calc", col.names=c('a','b') ,sep=";", quote="\"")
+plot(x, y, col= 'blue', main="Regression of y on x (statistical way)" , xlab="XValue", ylab="Yvalue")
+calcul <- read.table("./Rcalculate.calc", col.names=c('a','b') ,sep=";", quote="\"")
 attach(calcul)
 j = x
 i = a *j + b
 lines (j, i, col='red')
 summary(lm(y~x))
-datanor <- read.table("~/Exercises/LMS/RcalculateStep.normalize", col.names=c('c','d') ,sep=";", quote="\"")
+datanor <- read.table("./RcalculateStep.normalize", col.names=c('c','d') ,sep=";", quote="\"")
 attach(datanor)
 plot(c, d, col= 'blue', main="Regression of y on x (Machine Learning)" , xlab="XValue", ylab="Yvalue")
-calculnor <- read.table("~/Exercises/LMS/RcalculateStep.calc", col.names=c('e','f') ,sep=";", quote="\"")
+calculnor <- read.table("./RcalculateStep.calc", col.names=c('e','f') ,sep=";", quote="\"")
 attach(calculnor)
 j = c
 i = e *j + f

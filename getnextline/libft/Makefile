@@ -1,4 +1,4 @@
-NAME	=	libft.a	
+NAME	=	libft.a
 CC		=	gcc
 AR		=	ar rc
 INDEX	= 	ranlib
@@ -6,10 +6,13 @@ INDEX	= 	ranlib
 D_OBJ	=	obj
 
 O_FLAGS	=
-W_FLAGS	=	-c -Wall -Wextra -Werror -g
+W_FLAGS	=	-c -Wall -Wextra -Werror
+I_FLAGS = -I includes
 DEBUG	=
 MKDIR	=	mkdir -p
 RM		=	/bin/rm -rf
+INC   =includes
+
 
 F_SRC	:=	$(shell ls -1 | grep .c$$)
 F_OBJ	:=	$(F_SRC:.c=.o)
@@ -19,11 +22,11 @@ F_OBJ	:=	$(addprefix $(D_OBJ)/, $(F_OBJ))
 
 all: $(NAME)
 
-$(D_OBJ)/%.o: %.c libft.h 
+$(D_OBJ)/%.o: %.c $(INC)/libft.h
 	@$(MKDIR) $(D_OBJ)
-	$(CC) $(O_FLAGS) $(W_FLAGS) -c $< -o $@ $(DEBUG)
+	$(CC) $(I_FLAGS) $(O_FLAGS) $(W_FLAGS) -c $< -o $@ $(DEBUG)
 
-$(NAME): $(F_OBJ) libft.h 
+$(NAME): $(F_OBJ) $(INC)/libft.h
 		$(AR) $(NAME) $(F_OBJ)
 		$(INDEX) $(NAME)
 clean:

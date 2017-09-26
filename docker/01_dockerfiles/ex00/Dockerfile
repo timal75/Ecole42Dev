@@ -2,5 +2,6 @@
 FROM alpine
 
 RUN apk add --no-cache emacs
-RUN apk add --no-cache vim 
+RUN apk add --no-cache vim
 
+CMD ["vim"]

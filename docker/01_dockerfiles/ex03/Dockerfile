@@ -5,6 +5,8 @@ ENV HOMEDIR=/home/git
 ENV GOPATH=/home/git/go
 ENV GOROOT=$HOMEDIR/local/go
 ENV PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+ENV USER=git
+
 
 RUN groupadd -g 503 git &&\
 	useradd -u 503 -g 503 -d /home/git git

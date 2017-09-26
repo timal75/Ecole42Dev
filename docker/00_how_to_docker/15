@@ -1,1 +1,1 @@
-docker run --name roach-warden -e PMA_HOST=`docker inspect -f {{ .NetworkSettings.IPAddress }} spawning-pool` -e MYSQL_ROOT_PASSWORD=Kerrigan -d -p 8081:80 phpmyadmin/phpmyadmin
+docker run --name roach-warden -e PMA_HOST=`docker inspect -f '{{ .NetworkSettings.IPAddress }}' spawning-pool` -e MYSQL_ROOT_PASSWORD=Kerrigan -d -p 8081:80 phpmyadmin/phpmyadmin

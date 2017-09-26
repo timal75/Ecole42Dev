@@ -1,0 +1,30 @@
+version: '2'
+services:
+  httpd:
+    build: .
+    links:
+      - maria_db:db
+    ports:
+      - 8180:80
+    volumes:
+      - ./files/html:/var/www/html
+  maria_db:
+    container_name: mariadb
+    image: mariadb:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=docker
+      - MYSQL_DATABASE=Test3
+      - MYSQL_USER=toto
+      - MYSQL_PASSWORD=toto
+    volumes:
+      - ./log:/var/log/mysql
+      - ./data:/var/lib
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links:
+      - maria_db:db
+    ports:
+      - 8181:80
+    environment:
+      PMA_USER: root
+      PMA_PASSWORD: docker

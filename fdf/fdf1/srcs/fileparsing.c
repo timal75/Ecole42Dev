@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/12 14:44:56 by jblancha          #+#    #+#             */
-/*   Updated: 2017/01/06 21:35:06 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/09/13 16:18:58 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ t_field		**ft_read_file(char *filename)
 			((ft_push_line(field, line, height) == 1)))
 		height++;
 	close(fd);
+	if (height == 0)
+	{
+		free(field);
+		field = NULL;
+	}
 	free(line);
 	return (field);
 }

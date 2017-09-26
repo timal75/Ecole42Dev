@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/22 21:22:50 by jblancha          #+#    #+#             */
-/*   Updated: 2017/01/06 22:14:40 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/09/13 18:47:43 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void		ft_init_param_matrice(t_env *env)
 {
-	env->scale = scale_w > scale_h ? scale_h : scale_w;
+	env->scale = SCALE_W > SCALE_H ? SCALE_H : SCALE_W;
 	env->scale = env->scale > 5 ? env->scale : 5;
 	env->scalez = ft_reliefscale(env);
 	env->xcenter = XCENTER;

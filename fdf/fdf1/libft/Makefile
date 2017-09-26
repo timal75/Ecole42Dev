@@ -1,9 +1,9 @@
-NAME	=	libft.a	
+NAME	=	libft.a
 CC		=	gcc
 AR		=	ar rc
 INDEX	= 	ranlib
 
-D_SRC	=	
+D_SRC	=
 D_INC	=	../includes
 D_OBJ	=	../obj
 D_LIB	=	../lib
@@ -22,11 +22,11 @@ F_OBJ	:=	$(addprefix $(D_OBJ)/, $(F_OBJ))
 
 all: $(NAME)
 
-$(D_OBJ)/%.o: %.c $(D_INC)/libft.h 
+$(D_OBJ)/%.o: %.c $(D_INC)/libft.h
 	@$(MKDIR) $(D_OBJ)
 	$(CC) $(O_FLAGS) -I$(D_INC) $(W_FLAGS) -c $< -o $@ $(DEBUG)
 
-$(NAME): $(F_OBJ) $(D_INC)/libft.h 
+$(NAME): $(F_OBJ) $(D_INC)/libft.h
 		@$(MKDIR) $(D_LIB)
 		$(AR) $(D_LIB)/$(NAME) $(F_OBJ)
 		$(INDEX) $(D_LIB)/$(NAME)
@@ -34,6 +34,6 @@ clean:
 	$(RM) $(D_OBJ)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(D_LIB)/$(NAME)
 
 re: fclean all

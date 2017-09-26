@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 18:30:22 by jblancha          #+#    #+#             */
-/*   Updated: 2017/04/18 18:56:07 by jblancha         ###   ########.fr       */
+/*   Updated: 2017/06/29 01:25:26 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	ft_delfile(t_list **lst, const int fd)
 		if (fl1->fd == fd)
 		{
 			ft_memdel((void **)(&fl1->buf));
-			ft_lstdelmaillon(lst, lst1);	
+			ft_lstdelmaillon(lst, lst1);
 			trouve = 1;
 		}
 		if (!trouve)

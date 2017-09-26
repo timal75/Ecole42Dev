@@ -1,1 +1,1 @@
-docker ps -a | awk '{print $1}' | grep -v "CONT" | xargs -I {} docker inspect -f '{{ .NetworkSettings.IPAddress }}' {}
+docker ps -a | grep overlord | awk '{print $1}' | xargs -I {} docker inspect -f '{{ .NetworkSettings.IPAddress }}' {}

@@ -166,7 +166,7 @@ class Authentification: NSObject {
                 } else {
             do {
                 if let jsonDic: NSDictionary = try JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions()) as? NSDictionary {
-                    //print(jsonDic)
+                    print(jsonDic)
                     jsonData = jsonDic
                     if (jsonDic["displayname"] as? String) != nil {
                        DisplayName = (jsonDic["displayname"] as? String)!

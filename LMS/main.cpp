@@ -6,15 +6,15 @@
 
 void	print_help(void)
 {
-	std::cout << "./llmsq file\n";
+	std::cout << "./train file\n";
 	std::cout << "file : file containing the data\n";
 }
 
 void	ft_fill(std::vector<double> *x, std::vector<double>  *y, std::string line)
 {
-	double	num;
-	char* pEnd;
-	
+	double	   num;
+	char*      pEnd;
+
 	num = strtod(line.c_str(), &pEnd);
 	x->push_back(num);
 	std::string line2 = line.substr(line.find(",") + 1);
@@ -24,14 +24,14 @@ void	ft_fill(std::vector<double> *x, std::vector<double>  *y, std::string line)
 
 void	ft_calculate(std::vector<double> *x, std::vector<double> *y, int size)
 {
-	double			a;
-	double			b;
-	double			top;
-	double			bottom;
-	double			moy_x;
-	double			moy_y;
-	std::string		fileoutput ("Rcalculate.calc");
-	int				i;
+	double			    a;
+	double			    b;
+	double			    top;
+	double			    bottom;
+	double			    moy_x;
+	double			    moy_y;
+	std::string		  fileoutput ("Rcalculate.calc");
+	int				      i;
 
 	if ( size == 1)
 	{
@@ -78,8 +78,8 @@ void	ft_calculate(std::vector<double> *x, std::vector<double> *y, int size)
 int		read_file(std::string fic, std::vector<double> *x, std::vector<double>  *y, int *size)
 {
 	std::ifstream 	ifs;
-	int				ret;
-	std::string		line;
+	int				      ret;
+	std::string		  line;
 
 	ret = 0;
 	ifs.open (fic, std::ifstream::in);
@@ -151,17 +151,17 @@ double	ft_error(std::vector<double> *x, std::vector<double> *y,int size,double a
 
 void	ft_calculate_step(std::vector<double> *x, std::vector<double> *y, int size)
 {
-	double			a;
-	double			b;
-	double			step;
-	int				i;
-	int				iteration;
-	double			sum_a;
-	double			sum_b;
-	double			max;
-	double 			min;
-	double			error;
-	double			error1;
+	double			  a;
+	double			  b;
+	double			  step;
+	int				    i;
+	int				    iteration;
+	double			  sum_a;
+	double			  sum_b;
+	double			  max;
+	double 			  min;
+	double			  error;
+	double			  error1;
 
 	std::string	ferror ("error.calc");
 	std::ofstream output_error;
@@ -258,7 +258,7 @@ int 	main (int argc, char **argv)
 		print_help();
 		return (-1);
 	}
-	
+
 	ft_calculate( &x, &y, size);
 	ft_calculate_step( &x, &y, size);
 	output = "Rscript test.R  ";

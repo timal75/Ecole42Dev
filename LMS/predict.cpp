@@ -15,8 +15,8 @@ void	error_msg(void)
 
 void	out_of_range(double max, double min)
 {
-	std::cout << "The number you entered is out of raange !\n";
-	std::cout <<" It must be between "<< min << " and " << max << std::endl;
+	std::cout << "\n\nThe number you entered is out of range !\n";
+	std::cout <<" It must be between "<< min << " and " << max << "\n" << std::endl;
 }
 
 bool	getparam(std::string filename, double *param1, double *param2)
@@ -45,7 +45,7 @@ void	evaluate(double a, double b, double mileage, double max, double min)
 {
 		double res;
 		res = a *(mileage- min)/(max - min) + b;
-		std::cout << "the corrponding price is : " << res << std::endl;
+		std::cout << "\n\nthe corrponding price is : " << res << "\n" << std::endl;
 }
 
 int	main(void)
@@ -68,7 +68,7 @@ int	main(void)
 			getline(std::cin, line);
 			if (line.length() == 1 && line[0] == 'Q')
 				return (1);
-			else 
+			else
 			{
 				double	mileage;
 				std::string::size_type sz;
@@ -85,9 +85,9 @@ int	main(void)
 
 		}
 		catch (std::invalid_argument & e)
-		{	
+		{
 			error_msg ();
-		} 
+		}
 
 	}
 }

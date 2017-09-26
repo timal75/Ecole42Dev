@@ -1,5 +1,4 @@
-eval "$(docker-machine env char)"
-docker swarm init --listen-addr $(docker-machine ip char) --advertise-addr $(docker-machine ip char)
+eval "$(docker-machine env Char)"
 token=$(docker swarm join-token -q worker)
 eval "$(docker-machine env Aiur)"
-docker swarm join --token $token $(docker-machine ip char):2377
+docker swarm join --token $token $(docker-machine ip Char):2377
